@@ -10,7 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
             opacity: 1,
             duration: 1.5,
             ease: "power2.out"
-        })
+        }, 0)
+        // Title Reveal
+        .fromTo(".hero-title", {
+            y: 50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power4.out"
+        }, 0.3)
         // Hero Image Slow Zoom
         .to(".hero-img", {
             scale: 1.1,
@@ -18,17 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "none",
             repeat: -1,
             yoyo: true
-        }, "-=1.5")
-        // Title Reveal
-        .fromTo(".hero-title", {
-            y: 100,
-            opacity: 0
-        }, {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: "power4.out"
-        }, "-=1.2");
+        }, 0);
     });
 
     // Horizontal Scroll for Skills Showcase
