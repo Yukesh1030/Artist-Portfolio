@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Skills</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-hero {
+            height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .page-hero img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        .page-hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,1) 100%);
+            z-index: -1;
+        }
+        .page-hero h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            z-index: 1;
+        }
+
+        /* Skill Section Layout */
+        .skill-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 100px 5%;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.05);
+        }
+        .skill-section:nth-child(even) {
+            background-color: rgba(245, 241, 232, 0.02);
+            direction: rtl;
+        }
+        .skill-section:nth-child(even) > * {
+            direction: ltr;
+        }
+        
+        .skill-info h2 { font-size: 3.5rem; margin-bottom: 20px; color: var(--accent-color); }
+        .skill-info p { line-height: 1.8; color: rgba(245, 241, 232, 0.8); margin-bottom: 30px; font-size: 1.1rem; }
+        .skill-info ul { list-style: none; }
+        .skill-info ul li {
+            margin-bottom: 10px;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .skill-info ul li i { color: var(--accent-color); }
+
+        /* Animated Waveform Meter */
+        .waveform-meter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            gap: 8px;
+        }
+        .wave-bar {
+            width: 8px;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+            height: 10%;
+            transition: height 0.3s ease;
+        }
+        .wave-bar.active {
+            animation: pulseWave 1.5s infinite ease-in-out alternate;
+        }
+
+        @keyframes pulseWave {
+            0% { height: 10%; opacity: 0.5; }
+            100% { height: 100%; opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 3.5rem; text-align: center; }
+            .skill-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 5%; text-align: center; }
+            .skill-info ul li { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div id="preloader">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--accent-color);">STACKLY</h2>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+        </a>
+        <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Music.html">Music</a></li>
+            <li><a href="Works.html">Works</a></li>
+            <li><a href="Skills.html">Skills</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+            <li><a href="Login.html" class="btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. Hero -->
+    <section class="page-hero">
+        <img src="Assets/cover-image-Skills-page.webp" alt="Skills Hero">
+        <div class="page-hero-overlay"></div>
+        <h1 data-aos="zoom-in">Expertise</h1>
+    </section>
+
+    <!-- 2. Music Direction -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-right">
+            <h2>Music Direction</h2>
+            <p>Guiding the entire sonic vision of a project. Working closely with directors and producers to ensure the music perfectly aligns with the narrative trajectory and emotional core.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Creative Direction</li>
+                <li><i class="fa-solid fa-check"></i> Musical Supervision</li>
+                <li><i class="fa-solid fa-check"></i> Project Development</li>
+                <li><i class="fa-solid fa-check"></i> Artist Collaboration</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-1" data-intensity="0.9" data-aos="fade-left"></div>
+    </section>
+
+    <!-- 3. Composition -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-left">
+            <h2>Composition</h2>
+            <p>Crafting original melodies and harmonic structures from silence. Every note is purposeful, building themes that become the invisible identity of the characters and the story.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Melody Creation</li>
+                <li><i class="fa-solid fa-check"></i> Harmonic Structure</li>
+                <li><i class="fa-solid fa-check"></i> Theme Development</li>
+                <li><i class="fa-solid fa-check"></i> Emotional Scoring</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-2" data-intensity="0.95" data-aos="fade-right"></div>
+    </section>
+
+    <!-- 4. Production -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-right">
+            <h2>Production</h2>
+            <p>Transforming raw compositions into polished, full-scale auditory experiences. Managing tracking sessions, sound selection, and the intricate balancing act of a professional mix.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Arrangement</li>
+                <li><i class="fa-solid fa-check"></i> Recording</li>
+                <li><i class="fa-solid fa-check"></i> Mixing Workflow</li>
+                <li><i class="fa-solid fa-check"></i> Production Management</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-3" data-intensity="0.85" data-aos="fade-left"></div>
+    </section>
+
+    <!-- 5. Film Scoring -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-left">
+            <h2>Film Scoring</h2>
+            <p>Analyzing scenes frame by frame to dictate tempo, mood, and transition. Building a score that lives seamlessly within the dialogue and the sound design.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Scene Analysis</li>
+                <li><i class="fa-solid fa-check"></i> Mood Development</li>
+                <li><i class="fa-solid fa-check"></i> Character Themes</li>
+                <li><i class="fa-solid fa-check"></i> Cinematic Transitions</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-4" data-intensity="1.0" data-aos="fade-right"></div>
+    </section>
+
+    <!-- 6. Orchestration -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-right">
+            <h2>Orchestration</h2>
+            <p>Layering instruments to create massive, cinematic textures. Knowing when to use a solo cello for intimacy or a full brass section for overwhelming power.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Instrument Layering</li>
+                <li><i class="fa-solid fa-check"></i> Ensemble Arrangement</li>
+                <li><i class="fa-solid fa-check"></i> Cinematic Textures</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-5" data-intensity="0.8" data-aos="fade-left"></div>
+    </section>
+
+    <!-- 7. Sound Design -->
+    <section class="skill-section">
+        <div class="skill-info" data-aos="fade-left">
+            <h2>Sound Design</h2>
+            <p>Pushing beyond traditional instruments. Manipulating audio, synthesis, and field recordings to create entirely new atmospheres and experimental sonic textures.</p>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Atmospheres</li>
+                <li><i class="fa-solid fa-check"></i> Transitions</li>
+                <li><i class="fa-solid fa-check"></i> Sonic Textures</li>
+                <li><i class="fa-solid fa-check"></i> Experimental Sound</li>
+            </ul>
+        </div>
+        <div class="waveform-meter" id="wave-6" data-intensity="0.9" data-aos="fade-right"></div>
+    </section>
+
+    <!-- 8. CTA -->
+    <section class="section-padding text-center">
+        <h2 class="display-text" style="font-size: 3rem; margin-bottom: 40px;" data-aos="zoom-in">Ready to Build Your Sound?</h2>
+        <a href="Contact.html" class="btn btn-solid" data-aos="fade-up">Contact Me</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+                <p>Creating sound for stories that deserve to be felt. Cinematic music direction, composition, and production.</p>
+                <div class="social-icons">
+                    <a href="404.html"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-spotify"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Music.html">Music</a></li>
+                    <li><a href="Works.html">Works</a></li>
+                    <li><a href="Skills.html">Skills</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="404.html">Music Direction</a></li>
+                    <li><a href="404.html">Film Scoring</a></li>
+                    <li><a href="404.html">Sound Design</a></li>
+                    <li><a href="404.html">Audio Production</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="404.html">Privacy Policy</a></li>
+                    <li><a href="404.html">Terms of Service</a></li>
+                    <li><a href="404.html">Licensing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 STACKLY Music. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const meters = document.querySelectorAll('.waveform-meter');
+            
+            meters.forEach(meter => {
+                const intensity = parseFloat(meter.getAttribute('data-intensity'));
+                const numBars = 15;
+                
+                for(let i=0; i<numBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.classList.add('wave-bar');
+                    // Randomize height based on intensity
+                    const maxH = Math.random() * intensity * 100;
+                    bar.style.height = `${Math.max(10, maxH)}%`;
+                    meter.appendChild(bar);
+                }
+
+                ScrollTrigger.create({
+                    trigger: meter,
+                    start: "top 80%",
+                    onEnter: () => {
+                        const bars = meter.querySelectorAll('.wave-bar');
+                        bars.forEach((bar, index) => {
+                            bar.style.animationDelay = `${index * 0.1}s`;
+                            bar.classList.add('active');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

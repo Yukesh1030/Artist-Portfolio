@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Music Director & Composer</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Home Specific Styles to be moved to separate file or kept here for simplicity if small */
+        .hero {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0; /* JS will animate */
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,1) 100%);
+            z-index: -1;
+        }
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+        .hero-content h1 {
+            font-size: 8vw;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        .hero-content .subtitle {
+            font-family: var(--font-body);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        .hero-content p {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Musical Identity */
+        .musical-identity {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+        .identity-text h2 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+        .identity-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(245, 241, 232, 0.8);
+        }
+        .identity-visual {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 163, 93, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .waveform-circle {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 1px dashed var(--accent-color);
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Horizontal Skills Showcase */
+        .skills-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .skills-track {
+            display: flex;
+            padding: 0 5vw;
+            gap: 100px;
+        }
+        .skill-item {
+            min-width: 400px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .skill-item:hover {
+            color: var(--accent-color);
+        }
+        .skill-item .number {
+            font-family: var(--font-body);
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        .skill-item h3 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .skill-item p {
+            font-family: var(--font-body);
+            color: rgba(245, 241, 232, 0.6);
+            line-height: 1.6;
+        }
+
+        /* Selected Works */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .work-card {
+            position: relative;
+            overflow: hidden;
+            group;
+            cursor: pointer;
+        }
+        .work-card img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        .work-card:hover img {
+            transform: scale(1.05);
+        }
+        .work-info {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 40px;
+            background: linear-gradient(to top, rgba(10,10,10,0.9), transparent);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .work-card:hover .work-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .work-info h3 { font-size: 2.5rem; margin-bottom: 10px; }
+        .work-info p { color: var(--accent-color); font-family: var(--font-body); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 20px; }
+
+        /* Discography Timeline */
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .timeline-year {
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-family: var(--font-display);
+        }
+        .timeline-title { font-size: 1.5rem; text-transform: uppercase; }
+        .timeline-role { color: rgba(245, 241, 232, 0.6); font-family: var(--font-body); }
+        
+        /* Music Player */
+        .music-player-section {
+            background-color: rgba(245, 241, 232, 0.02);
+            border-top: 1px solid rgba(201, 163, 93, 0.2);
+            border-bottom: 1px solid rgba(201, 163, 93, 0.2);
+        }
+        .custom-player {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: rgba(10, 10, 10, 0.8);
+            padding: 40px;
+            border: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .play-btn {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .play-btn:hover { transform: scale(1.1); }
+        .player-info { flex-grow: 1; }
+        .progress-container {
+            width: 100%; height: 4px; background: rgba(245, 241, 232, 0.2);
+            margin-top: 15px; cursor: pointer; position: relative;
+        }
+        .progress-bar {
+            height: 100%; background: var(--accent-color); width: 30%;
+        }
+
+        /* Process & Studio (Combined) */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .step .step-num {
+            font-size: 3rem; color: var(--accent-color); font-family: var(--font-display);
+        }
+        .step h4 { font-size: 1.2rem; margin: 20px 0; text-transform: uppercase; }
+
+        .studio-image-container {
+            width: 100%;
+            height: 70vh;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .studio-image-container img {
+            width: 100%; height: 120%; object-fit: cover;
+        }
+
+        /* Achievements */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(245, 241, 232, 0.1);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+            padding: 80px 0;
+        }
+        .stat-number {
+            font-size: 4rem; color: var(--accent-color); font-family: var(--font-display);
+        }
+        .stat-label { text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; margin-top: 10px; }
+
+        /* Quote */
+        .quote-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .quote-section h2 { font-size: 3.5rem; font-style: italic; line-height: 1.3; }
+
+        @media (max-width: 1024px) {
+            .musical-identity { flex-direction: column; text-align: center; }
+            .works-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; gap: 40px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-content h1 { font-size: 12vw; }
+        }
+        @media (max-width: 768px) {
+            .skills-track { flex-direction: column; padding: 100px 5vw; gap: 60px; }
+            .skills-wrapper { height: auto; overflow: visible; display: block; }
+            .timeline-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .custom-player { flex-direction: column; text-align: center; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    
+    <div id="preloader">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--accent-color);">STACKLY</h2>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+        </a>
+        <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Music.html">Music</a></li>
+            <li><a href="Works.html">Works</a></li>
+            <li><a href="Skills.html">Skills</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+            <li><a href="Login.html" class="btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. Hero -->
+    <section class="hero">
+        <img src="Assets/cover-image-index.webp" alt="Stackly Studio" class="hero-img">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="subtitle" data-aos="fade-up" data-aos-delay="200">Music Director &bull; Composer &bull; Producer</p>
+            <h1 class="hero-title">STACKLY</h1>
+            <p data-aos="fade-up" data-aos-delay="600">"I create sound for stories that deserve to be felt."</p>
+        </div>
+    </section>
+
+    <!-- 2. Musical Identity -->
+    <section class="section-padding">
+        <div class="musical-identity">
+            <div class="identity-text" data-aos="fade-right">
+                <h2>Sound Has a Language</h2>
+                <p>Every story has a rhythm. Every emotion has a sound. My approach to composition is rooted in translating narrative into a sonic landscape. Whether it's a delicate cinematic score or a heavy, pulsing production, the goal is always emotional resonance.</p>
+            </div>
+            <div class="identity-visual" data-aos="fade-left">
+                <div class="waveform-circle"></div>
+                <i class="fa-solid fa-compact-disc" style="font-size: 4rem; color: var(--accent-color); position: absolute;"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Skills Showcase (Horizontal Scroll implemented in JS) -->
+    <section class="skills-wrapper" id="skills-section">
+        <div class="skills-track">
+            <div class="skill-item interactive">
+                <div class="number">01</div>
+                <h3>Music Direction</h3>
+                <p>Creative leadership from concept to final soundtrack.</p>
+            </div>
+            <div class="skill-item interactive">
+                <div class="number">02</div>
+                <h3>Composition</h3>
+                <p>Original melodies designed around emotion and narrative.</p>
+            </div>
+            <div class="skill-item interactive">
+                <div class="number">03</div>
+                <h3>Background Score</h3>
+                <p>Cinematic scoring for films, scenes and visual storytelling.</p>
+            </div>
+            <div class="skill-item interactive">
+                <div class="number">04</div>
+                <h3>Music Production</h3>
+                <p>End-to-end production, arrangement and studio execution.</p>
+            </div>
+            <div class="skill-item interactive">
+                <div class="number">05</div>
+                <h3>Sound Design</h3>
+                <p>Creating atmospheric and immersive sonic environments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Featured Works -->
+    <section class="section-padding">
+        <h2 class="display-text text-center mb-4" style="font-size: 3.5rem;" data-aos="fade-up">Selected Works</h2>
+        <div class="works-grid mt-4">
+            <div class="work-card" data-aos="fade-up">
+                <img src="Assets/Music Direction.webp" alt="Project 1">
+                <div class="work-info">
+                    <h3>Echoes of Time</h3>
+                    <p>Film Score &bull; Composition</p>
+                    <a href="404.html" class="btn btn-solid">View Project</a>
+                </div>
+            </div>
+            <div class="work-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="Assets/Composition.webp" alt="Project 2">
+                <div class="work-info">
+                    <h3>Neon Nights</h3>
+                    <p>Album Production &bull; Arrangement</p>
+                    <a href="404.html" class="btn btn-solid">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Discography Timeline -->
+    <section class="section-padding" style="background-color: rgba(245, 241, 232, 0.02);">
+        <h2 class="display-text text-center mb-4" style="font-size: 3.5rem;" data-aos="fade-up">A Collection of Sound</h2>
+        <div class="timeline-container mt-4">
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">2026</div>
+                <div>
+                    <div class="timeline-title">The Silent Sea</div>
+                    <div class="timeline-role">Film Score</div>
+                </div>
+                <a href="404.html" class="btn"><i class="fa-solid fa-play"></i> Listen</a>
+            </div>
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">2025</div>
+                <div>
+                    <div class="timeline-title">Midnight Variations</div>
+                    <div class="timeline-role">Album Production</div>
+                </div>
+                <a href="404.html" class="btn"><i class="fa-solid fa-play"></i> Listen</a>
+            </div>
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">2024</div>
+                <div>
+                    <div class="timeline-title">City Lights</div>
+                    <div class="timeline-role">Background Score</div>
+                </div>
+                <a href="404.html" class="btn"><i class="fa-solid fa-play"></i> Listen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Music Player -->
+    <section class="section-padding music-player-section">
+        <h2 class="display-text text-center mb-4" style="font-size: 3rem;" data-aos="fade-up">Listen to the Work</h2>
+        <div class="custom-player" data-aos="zoom-in">
+            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            <div class="player-info">
+                <h4 style="font-family: var(--font-body); font-size: 1.2rem; margin-bottom: 5px;">The Silent Sea (Main Theme)</h4>
+                <p style="color: var(--accent-color); font-size: 0.9rem;">Film Score &bull; 04:32</p>
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button style="background:none; border:none; color:var(--text-color); cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-backward-step"></i></button>
+                <button style="background:none; border:none; color:var(--text-color); cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-forward-step"></i></button>
+                <button style="background:none; border:none; color:var(--text-color); cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-volume-high"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7 & 8. Process & Studio -->
+    <section class="section-padding">
+        <h2 class="display-text text-center mb-4" style="font-size: 3.5rem;" data-aos="fade-up">From Idea to Sound</h2>
+        <div class="process-steps mt-4">
+            <div class="step" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-num">01</div>
+                <h4>Idea</h4>
+            </div>
+            <div class="step" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-num">02</div>
+                <h4>Composition</h4>
+            </div>
+            <div class="step" data-aos="fade-up" data-aos-delay="300">
+                <div class="step-num">03</div>
+                <h4>Arrangement</h4>
+            </div>
+            <div class="step" data-aos="fade-up" data-aos-delay="400">
+                <div class="step-num">04</div>
+                <h4>Production</h4>
+            </div>
+            <div class="step" data-aos="fade-up" data-aos-delay="500">
+                <div class="step-num">05</div>
+                <h4>Final Score</h4>
+            </div>
+        </div>
+        
+        <div class="studio-image-container" id="studio-parallax">
+            <img src="Assets/Recording & Studio Production.webp" alt="Studio Session" class="parallax-img">
+        </div>
+    </section>
+
+    <!-- 9. Achievements -->
+    <section class="section-padding">
+        <div class="stats-grid">
+            <div class="stat-item" data-aos="fade-up">
+                <div class="stat-number counter" data-target="15">0</div>
+                <div class="stat-label">Films & Projects</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number counter" data-target="30">0</div>
+                <div class="stat-label">Original Compositions</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number counter" data-target="50">0</div>
+                <div class="stat-label">Tracks Produced</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number counter" data-target="12">0</div>
+                <div class="stat-label">Awards & Recognitions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Quote & CTA -->
+    <section class="section-padding">
+        <div class="quote-section" data-aos="zoom-in">
+            <h2>"Music isn't something you simply hear. It's something you remember feeling."</h2>
+            <div style="margin-top: 60px; display: flex; gap: 20px; justify-content: center;">
+                <a href="Contact.html" class="btn btn-solid">Start a Project</a>
+                <a href="Music.html" class="btn">Listen to My Work</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+                <p>Creating sound for stories that deserve to be felt. Cinematic music direction, composition, and production.</p>
+                <div class="social-icons">
+                    <a href="404.html"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-spotify"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Music.html">Music</a></li>
+                    <li><a href="Works.html">Works</a></li>
+                    <li><a href="Skills.html">Skills</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="404.html">Music Direction</a></li>
+                    <li><a href="404.html">Film Scoring</a></li>
+                    <li><a href="404.html">Sound Design</a></li>
+                    <li><a href="404.html">Audio Production</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="404.html">Privacy Policy</a></li>
+                    <li><a href="404.html">Terms of Service</a></li>
+                    <li><a href="404.html">Licensing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 STACKLY Music. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>

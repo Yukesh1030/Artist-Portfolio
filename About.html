@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - About the Artist</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-hero {
+            height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .page-hero img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        .page-hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,1) 100%);
+            z-index: -1;
+        }
+        .page-hero h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            z-index: 1;
+        }
+
+        /* Journey Timeline Vertical */
+        .journey-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 50px;
+            border-left: 1px solid var(--accent-color);
+        }
+        .journey-item {
+            position: relative;
+            margin-bottom: 60px;
+        }
+        .journey-item::before {
+            content: '';
+            position: absolute;
+            left: -55px;
+            top: 10px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid var(--accent-color);
+        }
+        .journey-item h3 { font-size: 2rem; margin-bottom: 15px; color: var(--accent-color); }
+        .journey-item p { line-height: 1.8; color: rgba(245, 241, 232, 0.8); }
+
+        /* Philosophy Layout */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .philosophy-img img {
+            width: 100%;
+            border: 1px solid rgba(201, 163, 93, 0.3);
+            padding: 10px;
+        }
+
+        /* Practice Features */
+        .practice-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .feature-box {
+            padding: 40px;
+            border: 1px solid rgba(245, 241, 232, 0.1);
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+        .feature-box:hover { border-color: var(--accent-color); }
+        .feature-box i { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px; }
+        .feature-box h4 { font-size: 1.5rem; margin-bottom: 15px; font-family: var(--font-display); }
+        
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 3.5rem; }
+            .philosophy-grid { grid-template-columns: 1fr; }
+            .practice-features { grid-template-columns: 1fr; }
+            .journey-timeline { padding-left: 30px; }
+            .journey-item::before { left: -35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div id="preloader">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--accent-color);">STACKLY</h2>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+        </a>
+        <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Music.html">Music</a></li>
+            <li><a href="Works.html">Works</a></li>
+            <li><a href="Skills.html">Skills</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+            <li><a href="Login.html" class="btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. Hero -->
+    <section class="page-hero">
+        <img src="Assets/cover-image-about.webp" alt="About Hero">
+        <div class="page-hero-overlay"></div>
+        <h1 data-aos="zoom-in">The Artist</h1>
+    </section>
+
+    <!-- 2. Introduction -->
+    <section class="section-padding text-center" style="max-width: 800px; margin: 0 auto;">
+        <h2 class="display-text" style="font-size: 3.5rem; margin-bottom: 30px;" data-aos="fade-up">The Sound Behind The Story</h2>
+        <p data-aos="fade-up" data-aos-delay="200" style="font-size: 1.1rem; line-height: 1.8; color: rgba(245, 241, 232, 0.8);">
+            I am a composer and music director dedicated to crafting emotional soundscapes that elevate narrative storytelling. Over the past decade, my work has spanned cinematic film scores, intense background scoring, and intimate album production.
+        </p>
+    </section>
+
+    <!-- 3. Musical Journey -->
+    <section class="section-padding" style="background-color: rgba(245, 241, 232, 0.02);">
+        <h2 class="display-text text-center" style="font-size: 3.5rem; margin-bottom: 60px;" data-aos="fade-up">Musical Journey</h2>
+        <div class="journey-timeline">
+            <div class="journey-item" data-aos="fade-up">
+                <h3>Early Years</h3>
+                <p>Discovered the intersection of narrative and music, learning classical piano and early orchestration techniques.</p>
+            </div>
+            <div class="journey-item" data-aos="fade-up">
+                <h3>Musical Training</h3>
+                <p>Formal education in sound design, synthesis, and orchestral arrangement, establishing a foundation for cinematic scores.</p>
+            </div>
+            <div class="journey-item" data-aos="fade-up">
+                <h3>First Composition</h3>
+                <p>Began composing original pieces for short films, realizing the profound impact of audio on visual perception.</p>
+            </div>
+            <div class="journey-item" data-aos="fade-up">
+                <h3>Film & Media</h3>
+                <p>Entered the film industry as a lead composer, crafting themes and motifs for critically acclaimed indie films.</p>
+            </div>
+            <div class="journey-item" data-aos="fade-up">
+                <h3>Current Work</h3>
+                <p>Now working as a full-time Music Director and Producer, leading large-scale cinematic projects and original albums.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Philosophy -->
+    <section class="section-padding">
+        <div class="philosophy-grid">
+            <div class="philosophy-text" data-aos="fade-right">
+                <h2 class="display-text" style="font-size: 3.5rem; margin-bottom: 30px;">Philosophy</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(245, 241, 232, 0.8);">
+                    Music should never exist just to fill silence. It is an invisible character in every scene. My philosophy revolves around finding the core emotion of a narrative and building a sonic landscape that resonates deeply with the audience. Every layer, every note, every moment of silence is deliberate.
+                </p>
+            </div>
+            <div class="philosophy-img" data-aos="fade-left">
+                <img src="Assets/Sound Design.webp" alt="Philosophy in Sound">
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Experience & Influences -->
+    <section class="section-padding text-center" style="border-top: 1px solid rgba(245, 241, 232, 0.1);">
+        <h2 class="display-text" style="font-size: 3.5rem; margin-bottom: 60px;" data-aos="fade-up">Influences & Inspiration</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;" data-aos="fade-up" data-aos-delay="200">
+            <span style="padding: 10px 20px; border: 1px solid var(--accent-color); font-family: var(--font-display); font-size: 1.2rem;">Hans Zimmer</span>
+            <span style="padding: 10px 20px; border: 1px solid var(--accent-color); font-family: var(--font-display); font-size: 1.2rem;">Trent Reznor</span>
+            <span style="padding: 10px 20px; border: 1px solid var(--accent-color); font-family: var(--font-display); font-size: 1.2rem;">Ludwig Göransson</span>
+            <span style="padding: 10px 20px; border: 1px solid var(--accent-color); font-family: var(--font-display); font-size: 1.2rem;">Max Richter</span>
+        </div>
+    </section>
+
+    <!-- 6. Studio Practice -->
+    <section class="section-padding" style="background-color: rgba(245, 241, 232, 0.02);">
+        <h2 class="display-text text-center" style="font-size: 3.5rem; margin-bottom: 60px;" data-aos="fade-up">Studio Practice</h2>
+        <div class="practice-features">
+            <div class="feature-box" data-aos="fade-up">
+                <i class="fa-solid fa-sliders"></i>
+                <h4>Analog Warmth</h4>
+                <p>Blending modern digital synthesis with vintage analog hardware for a richer tone.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="150">
+                <i class="fa-solid fa-microphone-lines"></i>
+                <h4>Live Recording</h4>
+                <p>Capturing the human element through live musicians and organic instrumentation.</p>
+            </div>
+            <div class="feature-box" data-aos="fade-up" data-aos-delay="300">
+                <i class="fa-solid fa-headphones"></i>
+                <h4>Spatial Audio</h4>
+                <p>Mixing in immersive formats to create deeply enveloping sonic environments.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CTA -->
+    <section class="section-padding text-center">
+        <h2 class="display-text" style="font-size: 3rem; margin-bottom: 40px;" data-aos="zoom-in">Let's Create Together</h2>
+        <a href="Contact.html" class="btn btn-solid" data-aos="fade-up">Start a Conversation</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+                <p>Creating sound for stories that deserve to be felt. Cinematic music direction, composition, and production.</p>
+                <div class="social-icons">
+                    <a href="404.html"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-spotify"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Music.html">Music</a></li>
+                    <li><a href="Works.html">Works</a></li>
+                    <li><a href="Skills.html">Skills</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="404.html">Music Direction</a></li>
+                    <li><a href="404.html">Film Scoring</a></li>
+                    <li><a href="404.html">Sound Design</a></li>
+                    <li><a href="404.html">Audio Production</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="404.html">Privacy Policy</a></li>
+                    <li><a href="404.html">Terms of Service</a></li>
+                    <li><a href="404.html">Licensing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 STACKLY Music. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Selected Works</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-hero {
+            height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .page-hero img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.5;
+        }
+        .page-hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,1) 100%);
+            z-index: -1;
+        }
+        .page-hero h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            z-index: 1;
+        }
+
+        /* Case Study Layout */
+        .case-study {
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+            padding-bottom: 100px;
+            margin-bottom: 100px;
+        }
+        .case-study:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .cs-header {
+            text-align: center; margin-bottom: 60px;
+        }
+        .cs-header h2 { font-size: 4rem; margin-bottom: 10px; }
+        .cs-header p { color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; }
+
+        .cs-hero-img {
+            width: 100%; height: 70vh; object-fit: cover; margin-bottom: 60px;
+            border: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        .cs-meta-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+            margin-bottom: 60px; text-align: center;
+            border-top: 1px solid rgba(245, 241, 232, 0.05);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.05);
+            padding: 30px 0;
+        }
+        .cs-meta-item h4 { font-family: var(--font-body); font-size: 0.9rem; color: rgba(245, 241, 232, 0.5); margin-bottom: 5px; text-transform: uppercase; }
+        .cs-meta-item p { font-size: 1.1rem; }
+
+        .cs-content-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px;
+        }
+        .cs-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent-color); }
+        .cs-text p { line-height: 1.8; color: rgba(245, 241, 232, 0.8); margin-bottom: 20px; }
+        
+        .cs-gallery {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+        }
+        .cs-gallery img {
+            width: 100%; height: 300px; object-fit: cover; border: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        @media (max-width: 1024px) {
+            .cs-meta-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+            .cs-content-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 3.5rem; }
+            .cs-header h2 { font-size: 3rem; }
+            .cs-hero-img { height: 50vh; }
+            .cs-meta-grid { grid-template-columns: 1fr; }
+            .cs-gallery { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div id="preloader">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--accent-color);">STACKLY</h2>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+        </a>
+        <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Music.html">Music</a></li>
+            <li><a href="Works.html">Works</a></li>
+            <li><a href="Skills.html">Skills</a></li>
+            <li><a href="Contact.html">Contact</a></li>
+            <li><a href="Login.html" class="btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. Hero -->
+    <section class="page-hero">
+        <img src="Assets/cover-image-Works-page.webp" alt="Works Hero">
+        <div class="page-hero-overlay"></div>
+        <h1 data-aos="zoom-in">Selected Works</h1>
+    </section>
+
+    <div class="section-padding">
+        <!-- 2. Case Study 1 -->
+        <section class="case-study">
+            <div class="cs-header" data-aos="fade-up">
+                <h2>The Silent Sea</h2>
+                <p>Film Score &bull; 2026</p>
+            </div>
+            
+            <img src="Assets/Background Score.webp" alt="The Silent Sea" class="cs-hero-img" data-aos="zoom-in">
+            
+            <div class="cs-meta-grid" data-aos="fade-up">
+                <div class="cs-meta-item">
+                    <h4>Client / Production</h4>
+                    <p>Aura Films</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Role</h4>
+                    <p>Music Director & Composer</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Genre</h4>
+                    <p>Cinematic Orchestral</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Key Skills</h4>
+                    <p>Orchestration, Sound Design</p>
+                </div>
+            </div>
+            
+            <div class="cs-content-grid">
+                <div class="cs-text" data-aos="fade-right">
+                    <h3>The Story & Approach</h3>
+                    <p>The Silent Sea is a psychological thriller set in an isolated research facility. The director wanted a score that felt cold, vast, and increasingly claustrophobic. Instead of traditional strings, I focused on processed brass, deep analog synthesizers, and metallic sound design to create an atmosphere of dread.</p>
+                    <p>The main theme uses a recurring 3-note motif that represents the crushing weight of the ocean above, evolving throughout the film from a subtle drone into an overwhelming wall of sound.</p>
+                    <a href="404.html" class="btn mt-4"><i class="fa-solid fa-play"></i> Listen to Score</a>
+                </div>
+                <div class="cs-gallery" data-aos="fade-left">
+                    <img src="Assets/Sound Design.webp" alt="Studio Session">
+                    <img src="Assets/Recording & Studio Production.webp" alt="Recording">
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Case Study 2 -->
+        <section class="case-study">
+            <div class="cs-header" data-aos="fade-up">
+                <h2>Neon Nights</h2>
+                <p>Album Production &bull; 2025</p>
+            </div>
+            
+            <img src="Assets/Composition.webp" alt="Neon Nights" class="cs-hero-img" data-aos="zoom-in">
+            
+            <div class="cs-meta-grid" data-aos="fade-up">
+                <div class="cs-meta-item">
+                    <h4>Artist</h4>
+                    <p>Vellichor</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Role</h4>
+                    <p>Producer & Arranger</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Genre</h4>
+                    <p>Synthwave / Alternative</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Key Skills</h4>
+                    <p>Production, Mixing</p>
+                </div>
+            </div>
+            
+            <div class="cs-content-grid">
+                <div class="cs-text" data-aos="fade-right">
+                    <h3>Production Details</h3>
+                    <p>For this 10-track album, the goal was to blend nostalgic 80s synth textures with modern, hard-hitting drum production. We spent weeks sampling vintage hardware synthesizers to create a custom sound library before writing a single chord.</p>
+                    <p>The arrangement process involved stripping back complex ideas to their most infectious grooves, ensuring every track felt like a midnight drive through a neon-lit city.</p>
+                    <a href="404.html" class="btn mt-4"><i class="fa-solid fa-play"></i> Listen to Album</a>
+                </div>
+                <div class="cs-gallery" data-aos="fade-left">
+                    <img src="Assets/Music Production.webp" alt="Production">
+                    <img src="Assets/Arrangement.webp" alt="Arrangement">
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Case Study 3 -->
+        <section class="case-study">
+            <div class="cs-header" data-aos="fade-up">
+                <h2>City Lights</h2>
+                <p>Background Score &bull; 2024</p>
+            </div>
+            
+            <img src="Assets/Orchestration.webp" alt="City Lights" class="cs-hero-img" data-aos="zoom-in">
+            
+            <div class="cs-meta-grid" data-aos="fade-up">
+                <div class="cs-meta-item">
+                    <h4>Client / Production</h4>
+                    <p>Metropolis Studios</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Role</h4>
+                    <p>Composer</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Genre</h4>
+                    <p>Jazz / Orchestral</p>
+                </div>
+                <div class="cs-meta-item">
+                    <h4>Key Skills</h4>
+                    <p>Composition, Arrangement</p>
+                </div>
+            </div>
+            
+            <div class="cs-content-grid">
+                <div class="cs-text" data-aos="fade-right">
+                    <h3>Composition Process</h3>
+                    <p>A fast-paced urban drama required a score that felt constantly in motion. I combined a traditional jazz rhythm section with a 40-piece string orchestra to create a sound that felt both grounded and elevated.</p>
+                    <a href="404.html" class="btn mt-4"><i class="fa-solid fa-play"></i> Listen to Score</a>
+                </div>
+                <div class="cs-gallery" data-aos="fade-left">
+                    <img src="Assets/Music Direction.webp" alt="Direction">
+                    <img src="Assets/Sound Design.webp" alt="Design">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 5. CTA -->
+    <section class="section-padding text-center" style="background-color: rgba(245, 241, 232, 0.02);">
+        <h2 class="display-text" style="font-size: 3rem; margin-bottom: 40px;" data-aos="fade-up">Have a Project in Mind?</h2>
+        <a href="Contact.html" class="btn btn-solid" data-aos="fade-up">Let's Discuss</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+                <p>Creating sound for stories that deserve to be felt. Cinematic music direction, composition, and production.</p>
+                <div class="social-icons">
+                    <a href="404.html"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-spotify"></i></a>
+                    <a href="404.html"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Music.html">Music</a></li>
+                    <li><a href="Works.html">Works</a></li>
+                    <li><a href="Skills.html">Skills</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="404.html">Music Direction</a></li>
+                    <li><a href="404.html">Film Scoring</a></li>
+                    <li><a href="404.html">Sound Design</a></li>
+                    <li><a href="404.html">Audio Production</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="404.html">Privacy Policy</a></li>
+                    <li><a href="404.html">Terms of Service</a></li>
+                    <li><a href="404.html">Licensing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 STACKLY Music. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
