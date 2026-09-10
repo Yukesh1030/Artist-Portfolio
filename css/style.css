@@ -157,6 +157,20 @@ a:hover {
   transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
+@media (min-width: 769px) {
+  .navbar {
+    justify-content: center;
+  }
+  .navbar-brand {
+    position: absolute;
+    left: 5%;
+  }
+  .nav-links li:last-child {
+    position: absolute;
+    right: 5%;
+  }
+}
+
 .navbar.scrolled {
   background-color: rgba(10, 10, 10, 0.95);
   padding: 16px 5%;
@@ -166,12 +180,14 @@ a:hover {
 .navbar-brand img {
   height: 40px;
   width: auto;
+  filter: brightness(0) saturate(100%) invert(61%) sepia(84%) saturate(241%) hue-rotate(0deg) brightness(93%) contrast(90%);
 }
 
 .nav-links {
   display: flex;
   gap: 32px;
   list-style: none;
+  align-items: center;
 }
 
 .nav-links a {
@@ -222,6 +238,7 @@ a:hover {
 .footer-brand img {
   height: 40px;
   margin-bottom: 20px;
+  filter: brightness(0) saturate(100%) invert(61%) sepia(84%) saturate(241%) hue-rotate(0deg) brightness(93%) contrast(90%);
 }
 
 .footer-brand p {
