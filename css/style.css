@@ -136,13 +136,13 @@ a:hover {
 }
 
 .btn-solid {
-  background-color: var(--accent-color);
-  color: var(--bg-color);
+  background-color: var(--bg-color);
+  color: var(--accent-color);
 }
 
 .btn-solid:hover {
-  background-color: transparent;
-  color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: var(--bg-color);
 }
 
 /* Navbar */
