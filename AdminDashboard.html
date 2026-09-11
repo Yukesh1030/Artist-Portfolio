@@ -388,6 +388,58 @@
                     }
                 });
             }
+            // Redirect non-sidebar buttons and links to 404
+            document.querySelectorAll('a, button').forEach(el => {
+                if (el.closest('.sidebar')) return;
+                if (el.id === 'saveBtn') return; // Handled below
+                if (el.closest('form')) return; // Handled by form submit
+                if (el.id === 'mobileMenuToggle') return; // Hamburger menu
+                
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '404.html';
+                });
+            });
+
+            // Handle Save Button in AdminSettings specifically if it exists
+            const saveBtn = document.getElementById('saveBtn');
+            const settingsForm = document.getElementById('settingsForm');
+            if (saveBtn && settingsForm) {
+                saveBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    let valid = true;
+                    settingsForm.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.hasAttribute('required') && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = '#ff6b6b';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    });
+                    if (valid) {
+                        window.location.href = '404.html';
+                    }
+                });
+            }
+
+            // Form validation and redirection (for any other forms)
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    let valid = true;
+                    form.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.hasAttribute('required') && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = '#ff6b6b';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    });
+                    if (valid) {
+                        window.location.href = '404.html';
+                    }
+                });
+            });
         });
     </script>
 </body>
