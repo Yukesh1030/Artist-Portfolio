@@ -82,7 +82,7 @@
         /* Inbox List */
         .inbox-list { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 10px; }
         .inbox-item {
-            padding: 15px; background: rgba(10, 10, 10, 0.5); border: 1px solid rgba(245, 241, 232, 0.05); border-radius: 8px; cursor: pointer; transition: all 0.3s;
+            padding: 15px; background: rgba(10, 10, 10, 0.5); border: 1px solid rgba(245, 241, 232, 0.05); border-radius: 8px; cursor: pointer; transition: border-color 0.3s ease, background-color 0.3s ease;
         }
         .inbox-item:hover, .inbox-item.active { border-color: var(--accent-color); background: rgba(201, 163, 93, 0.05); }
         .inbox-sender { font-weight: 600; font-size: 1rem; margin-bottom: 5px; display: flex; justify-content: space-between; }
