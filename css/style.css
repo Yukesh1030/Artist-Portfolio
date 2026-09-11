@@ -358,9 +358,21 @@ a:hover {
   padding: 40px 20px;
 }
 
-.back-to-home {
+.auth-brand {
   position: absolute;
   top: 40px;
+  left: 5%;
+  z-index: 10;
+}
+
+.auth-brand img {
+  height: 35px;
+  width: auto;
+}
+
+.back-to-home {
+  position: absolute;
+  top: 90px;
   left: 5%;
   display: flex;
   align-items: center;
