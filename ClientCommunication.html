@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Client Communication</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-right: 1px solid rgba(245, 241, 232, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+        }
+        .sidebar-brand { margin-bottom: 50px; text-align: center; }
+        .sidebar-brand img { height: 40px; }
+        .sidebar-menu { list-style: none; flex-grow: 1; }
+        .sidebar-menu li { margin-bottom: 15px; }
+        .sidebar-menu a {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px 20px; border-radius: 8px;
+            color: rgba(245, 241, 232, 0.7); transition: border-color 0.3s, color 0.3s;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(201, 163, 93, 0.1); color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 40px; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding-bottom: 20px;
+        }
+        .topbar h2 { font-family: var(--font-display); font-size: 2.5rem; }
+        
+        /* Stats Cards */
+        .stats-cards {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;
+        }
+        .stat-card {
+            background: rgba(245, 241, 232, 0.02); border: 1px solid rgba(245, 241, 232, 0.05);
+            padding: 30px; border-radius: 12px;
+        }
+        .stat-card h4 { color: rgba(245, 241, 232, 0.5); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px; }
+        .stat-card .value { font-size: 1.8rem; color: var(--accent-color); font-family: var(--font-body); }
+
+        /* Split View Chat */
+        .chat-container {
+            background: rgba(245, 241, 232, 0.02);
+            border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            height: 440px;
+        }
+        .chat-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding-bottom: 15px; margin-bottom: 15px;
+        }
+        .chat-history {
+            flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 10px;
+        }
+        .chat-bubble {
+            max-width: 75%; padding: 14px 18px; border-radius: 12px; font-size: 0.9rem; line-height: 1.5; position: relative;
+        }
+        .chat-left {
+            align-self: flex-start; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(245, 241, 232, 0.1);
+            color: var(--text-color); border-bottom-left-radius: 2px;
+        }
+        .chat-right {
+            align-self: flex-end; background: rgba(201, 163, 93, 0.15); border: 1px solid rgba(201, 163, 93, 0.3);
+            color: var(--text-color); border-bottom-right-radius: 2px;
+        }
+        .chat-time { font-size: 0.7rem; color: rgba(245, 241, 232, 0.4); margin-top: 5px; text-align: right; }
+
+        .chat-input-row {
+            display: flex; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(245, 241, 232, 0.1);
+        }
+        .chat-input {
+            flex-grow: 1; background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(245, 241, 232, 0.15);
+            border-radius: 8px; padding: 12px 16px; color: var(--text-color); font-family: var(--font-body); font-size: 0.9rem; outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-input:focus { border-color: var(--accent-color); }
+
+        /* Grid Sections */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .section-box {
+            background: rgba(245, 241, 232, 0.02);
+            border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(245,241,232,0.1); padding-bottom: 10px; }
+
+        /* Form Controls */
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); }
+        .form-control {
+            background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(245, 241, 232, 0.15);
+            padding: 10px 14px; border-radius: 6px; color: var(--text-color); font-family: var(--font-body); font-size: 0.85rem; outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus { border-color: var(--accent-color); }
+
+        /* Brief Card */
+        .brief-link-card {
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
+            background: rgba(10,10,10,0.5); border: 1px solid rgba(245,241,232,0.05); border-radius: 8px;
+        }
+
+        .hamburger { display: none; }
+
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding: 20px; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; z-index: 100; position: relative; }
+            .sidebar-brand { margin-bottom: 0; }
+            .hamburger { display: block; font-size: 1.5rem; color: var(--accent-color); cursor: pointer; }
+            .sidebar-menu { display: none; width: 100%; flex-direction: column; padding-top: 20px; }
+            .sidebar-menu.active-menu { display: flex; }
+            .sidebar #logoutBtn { display: none; }
+            .sidebar.active-menu #logoutBtn { display: flex; width: 100%; margin-top: 15px; }
+            .stats-cards { grid-template-columns: 1fr; }
+            .chat-bubble { max-width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="custom-cursor"></div>
+
+    <aside class="sidebar" id="clientSidebar">
+        <div class="sidebar-brand">
+            <a href="ClientDashboard.html">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo" style="filter: brightness(0) saturate(100%) invert(75%) sepia(34%) saturate(452%) hue-rotate(1deg) brightness(91%) contrast(85%);">
+            </a>
+        </div>
+        <div class="hamburger" id="mobileMenuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li><a href="ClientDashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="ClientProjects.html"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
+            <li><a href="ClientInvoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
+            <li><a href="ClientCommunication.html" class="active"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
+            <li><a href="ClientFiles.html"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
+            <li><a href="ClientSettings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        </ul>
+        <a href="Login.html" id="logoutBtn" class="btn" style="text-align: center;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <h2>Studio Communication</h2>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color); display: flex; justify-content: center; align-items: center; font-weight: bold; font-family: var(--font-body); font-size: 1.2rem;">C</div>
+                <span id="userNameDisplay">Welcome, Client</span>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h4>Dedicated Producer</h4>
+                <div class="value">Julian Vance</div>
+            </div>
+            <div class="stat-card">
+                <h4>Studio Status</h4>
+                <div class="value" style="color: #64c864; font-size: 1.5rem;"><i class="fa-solid fa-circle" style="font-size: 0.8rem; margin-right: 8px;"></i> Live in Studio</div>
+            </div>
+            <div class="stat-card">
+                <h4>Response SLA</h4>
+                <div class="value">&lt; 45 mins</div>
+            </div>
+        </div>
+
+        <!-- Real-Time Chat Section -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div>
+                    <h3 style="margin: 0 0 4px 0;">Neon Nights Album &bull; Direct Studio Channel</h3>
+                    <span style="font-size: 0.8rem; color: rgba(245,241,232,0.5);">Connecting to Julian Vance (Lead Sound Designer & Producer)</span>
+                </div>
+                <span style="font-size: 0.75rem; background: rgba(100,200,100,0.1); color: #64c864; padding: 4px 10px; border-radius: 20px; font-weight: 600;">
+                    <i class="fa-solid fa-signal"></i> Encrypted Channel
+                </span>
+            </div>
+            
+            <div class="chat-history" id="chatHistory">
+                <div class="chat-bubble chat-left">
+                    Hey! I just uploaded the V2 vocal mix for Track 1 and smoothed out that transitional synth riser around 02:15.<br><br>
+                    Give it a spin in your car or studio monitors, and let me know if you want any adjustments before we finalize the stem prints!
+                    <div class="chat-time">Today, 10:14 AM</div>
+                </div>
+            </div>
+
+            <div class="chat-input-row">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Type a message to Julian Vance... (Press Enter to send)">
+                <button class="btn btn-solid" id="chatSendBtn" style="padding: 0 22px;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- 4 Unique Sections for Communication -->
+        <div class="dashboard-grid">
+            <!-- 1. Schedule a Production Call / Studio Session -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Schedule Studio Session / Call</h3>
+                    <i class="fa-solid fa-calendar-plus" style="color: var(--accent-color);"></i>
+                </div>
+                <form id="scheduleCallForm" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label for="callType">Session Type <span style="color: #ff6b6b;">*</span></label>
+                        <select id="callType" class="form-control" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="zoom">Video Call (Google Meet / Zoom)</option>
+                            <option value="studio">In-Person Studio Session (Los Angeles)</option>
+                            <option value="audiomovers">Audiomovers Listento High-Res Stream</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label for="callDate">Preferred Date <span style="color: #ff6b6b;">*</span></label>
+                            <input type="date" id="callDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="callTime">Preferred Time <span style="color: #ff6b6b;">*</span></label>
+                            <input type="time" id="callTime" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="callTopic">Discussion Agenda / Focus <span style="color: #ff6b6b;">*</span></label>
+                        <input type="text" id="callTopic" class="form-control" placeholder="e.g., Track 3 bridge arrangement & mix review" required>
+                    </div>
+                    <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 5px;"><i class="fa-solid fa-calendar-check"></i> Book Session</button>
+                </form>
+            </div>
+
+            <!-- 2. Timestamped Track Feedback Form -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Timestamped Mix Feedback</h3>
+                    <i class="fa-solid fa-clock" style="color: var(--accent-color);"></i>
+                </div>
+                <form id="feedbackForm" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label for="feedbackTrack">Track Selection <span style="color: #ff6b6b;">*</span></label>
+                            <select id="feedbackTrack" class="form-control" required>
+                                <option value="">-- Choose Track --</option>
+                                <option value="track1">Track 1: Intro (V2 Mix)</option>
+                                <option value="track2">Track 2: Midnight (V1 Mix)</option>
+                                <option value="track3">Track 3: Void (Final Master)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timestampVal">Timestamp <span style="color: #ff6b6b;">*</span></label>
+                            <input type="text" id="timestampVal" class="form-control" placeholder="01:42" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackNotes">Producer Notes <span style="color: #ff6b6b;">*</span></label>
+                        <textarea id="feedbackNotes" class="form-control" rows="2" placeholder="e.g., Bass feels slightly heavy here; bring out the hi-hat sparkle" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="priorityLevel">Priority Level <span style="color: #ff6b6b;">*</span></label>
+                        <select id="priorityLevel" class="form-control" required>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High (Blocking Release)</option>
+                            <option value="low">Low (Cosmetic Polish)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 5px;"><i class="fa-solid fa-paper-plane"></i> Submit Timestamp Feedback</button>
+                </form>
+            </div>
+
+            <!-- 3. Studio Hours & Working Availability -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Studio Working Hours</h3>
+                    <span style="font-size: 0.8rem; color: #64c864;"><i class="fa-solid fa-circle-check"></i> Open Now</span>
+                </div>
+                <div style="font-size: 0.85rem; line-height: 1.8; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Monday &ndash; Friday</span>
+                        <strong>10:00 AM &ndash; 7:00 PM PST</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Saturday (Mastering Sessions)</span>
+                        <strong>11:00 AM &ndash; 4:00 PM PST</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Sunday</span>
+                        <strong style="color: rgba(245,241,232,0.4);">Closed / Maintenance</strong>
+                    </div>
+                    <div style="padding: 10px; background: rgba(10,10,10,0.5); border-radius: 6px; border-left: 3px solid var(--accent-color); margin-top: 5px;">
+                        <strong>Emergency Mix Line:</strong> For release deadlines within 24 hours, contact production manager directly at <em>urgent@stacklymusic.com</em>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Shared Project Brief & Reference Links -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Shared Creative References</h3>
+                    <i class="fa-solid fa-link" style="color: var(--accent-color);"></i>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="brief-link-card">
+                        <div>
+                            <strong>Spotify Reference Playlist</strong>
+                            <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Blade Runner 2049, Kavinsky, Moderat</div>
+                        </div>
+                        <button class="btn btn-solid" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</button>
+                    </div>
+                    <div class="brief-link-card">
+                        <div>
+                            <strong>Visual Tone Moodboard (Dropbox)</strong>
+                            <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Cyberpunk lighting & color palettes</div>
+                        </div>
+                        <button class="btn" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</button>
+                    </div>
+                    <div class="brief-link-card">
+                        <div>
+                            <strong>Director's Cue Sheet Guidance</strong>
+                            <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Scene-by-scene musical transition notes</div>
+                        </div>
+                        <button class="btn" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cursor = document.querySelector(".custom-cursor");
+            if (cursor) {
+                document.addEventListener("mousemove", (e) => {
+                    cursor.style.left = e.clientX + "px";
+                    cursor.style.top = e.clientY + "px";
+                });
+            }
+
+            // GSAP Entrance
+            gsap.from(".stat-card", {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                stagger: 0.1
+            });
+
+            gsap.from(".chat-container", {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                delay: 0.2
+            });
+
+            gsap.from(".gsap-fade-up", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                delay: 0.3
+            });
+
+            const currentUser = localStorage.getItem('currentUser') || 'Client';
+            document.getElementById('userNameDisplay').textContent = 'Welcome, ' + currentUser;
+            document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                });
+            }
+
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const clientSidebar = document.getElementById('clientSidebar');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    sidebarMenu.classList.toggle('active-menu');
+                    clientSidebar.classList.toggle('active-menu');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (sidebarMenu.classList.contains('active-menu')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Chat Functionality
+            const chatHistory = document.getElementById('chatHistory');
+            const chatInput = document.getElementById('chatInput');
+            const chatSendBtn = document.getElementById('chatSendBtn');
+
+            function appendMessage(text, side) {
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble chat-${side}`;
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                bubble.innerHTML = `${text}<div class="chat-time">Today, ${timeStr}</div>`;
+                chatHistory.appendChild(bubble);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+                // Animate entrance
+                gsap.from(bubble, {
+                    opacity: 0,
+                    y: 10,
+                    duration: 0.3
+                });
+            }
+
+            function handleSend() {
+                const text = chatInput.value.trim();
+                if (text) {
+                    appendMessage(text, 'right');
+                    chatInput.value = '';
+                    
+                    // Simulate Producer Julian Vance response
+                    setTimeout(() => {
+                        const replies = [
+                            "Got your note! I'm in the live room right now making that adjustment. Will push a fresh bounce shortly!",
+                            "Awesome feedback. I'll tighten up the low end and update the stems package today.",
+                            "Sounds great! Looking forward to wrapping this master up with you.",
+                            "Noted! I've marked that in the cue log and will have the revision ready for our call."
+                        ];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        appendMessage(randomReply, 'left');
+                    }, 1000);
+                }
+            }
+
+            if (chatSendBtn && chatInput) {
+                chatSendBtn.addEventListener('click', handleSend);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleSend();
+                    }
+                });
+            }
+
+            // Redirect non-sidebar buttons and links to 404
+            document.querySelectorAll('a, button').forEach(el => {
+                if (el.closest('.sidebar')) return;
+                if (el.closest('form')) return; // Handled by form submit
+                if (el.id === 'mobileMenuToggle') return; // Hamburger menu
+                if (el.id === 'chatSendBtn') return; // Handled by chat
+                
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '404.html';
+                });
+            });
+
+            // Form validation and redirection
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    let valid = true;
+                    form.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.hasAttribute('required') && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = '#ff6b6b';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    });
+                    if (valid) {
+                        window.location.href = '404.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

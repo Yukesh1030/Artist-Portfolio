@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Files & Production Assets</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: rgba(10, 10, 10, 0.95);
+            border-right: 1px solid rgba(245, 241, 232, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+        }
+        .sidebar-brand { margin-bottom: 50px; text-align: center; }
+        .sidebar-brand img { height: 40px; }
+        .sidebar-menu { list-style: none; flex-grow: 1; }
+        .sidebar-menu li { margin-bottom: 15px; }
+        .sidebar-menu a {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px 20px; border-radius: 8px;
+            color: rgba(245, 241, 232, 0.7); transition: border-color 0.3s, color 0.3s;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(201, 163, 93, 0.1); color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 40px; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding-bottom: 20px;
+        }
+        .topbar h2 { font-family: var(--font-display); font-size: 2.5rem; }
+        
+        /* Stats Cards */
+        .stats-cards {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;
+        }
+        .stat-card {
+            background: rgba(245, 241, 232, 0.02); border: 1px solid rgba(245, 241, 232, 0.05);
+            padding: 30px; border-radius: 12px;
+        }
+        .stat-card h4 { color: rgba(245, 241, 232, 0.5); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px; }
+        .stat-card .value { font-size: 1.8rem; color: var(--accent-color); font-family: var(--font-body); }
+
+        /* File List */
+        .file-list-wrap {
+            background: rgba(245, 241, 232, 0.02);
+            border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .file-item {
+            display: grid; grid-template-columns: auto 1fr 100px 120px 90px; gap: 15px; align-items: center;
+            padding: 14px 18px; background: rgba(10, 10, 10, 0.5); border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 8px; font-size: 0.85rem; transition: border-color 0.3s;
+        }
+        .file-item:hover { border-color: var(--accent-color); }
+        .file-icon { font-size: 1.4rem; color: var(--accent-color); width: 24px; text-align: center; }
+
+        /* Grid Sections */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .section-box {
+            background: rgba(245, 241, 232, 0.02);
+            border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(245,241,232,0.1); padding-bottom: 10px; }
+
+        /* Dropzone Mock */
+        .dropzone-box {
+            border: 2px dashed rgba(201, 163, 93, 0.3); border-radius: 8px; padding: 25px; text-align: center;
+            background: rgba(10, 10, 10, 0.4); cursor: pointer; transition: border-color 0.3s;
+        }
+        .dropzone-box:hover { border-color: var(--accent-color); }
+
+        /* Cloud Sync Card */
+        .sync-card {
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
+            background: rgba(10,10,10,0.5); border: 1px solid rgba(245,241,232,0.05); border-radius: 8px;
+        }
+
+        /* Form Controls */
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.8rem; color: rgba(245, 241, 232, 0.7); }
+        .form-control {
+            background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(245, 241, 232, 0.15);
+            padding: 10px 14px; border-radius: 6px; color: var(--text-color); font-family: var(--font-body); font-size: 0.85rem; outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus { border-color: var(--accent-color); }
+
+        .hamburger { display: none; }
+
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding: 20px; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; z-index: 100; position: relative; }
+            .sidebar-brand { margin-bottom: 0; }
+            .hamburger { display: block; font-size: 1.5rem; color: var(--accent-color); cursor: pointer; }
+            .sidebar-menu { display: none; width: 100%; flex-direction: column; padding-top: 20px; }
+            .sidebar-menu.active-menu { display: flex; }
+            .sidebar #logoutBtn { display: none; }
+            .sidebar.active-menu #logoutBtn { display: flex; width: 100%; margin-top: 15px; }
+            .stats-cards { grid-template-columns: 1fr; }
+            .file-item { grid-template-columns: auto 1fr; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="custom-cursor"></div>
+
+    <aside class="sidebar" id="clientSidebar">
+        <div class="sidebar-brand">
+            <a href="ClientDashboard.html">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo" style="filter: brightness(0) saturate(100%) invert(75%) sepia(34%) saturate(452%) hue-rotate(1deg) brightness(91%) contrast(85%);">
+            </a>
+        </div>
+        <div class="hamburger" id="mobileMenuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li><a href="ClientDashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="ClientProjects.html"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
+            <li><a href="ClientInvoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
+            <li><a href="ClientCommunication.html"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
+            <li><a href="ClientFiles.html" class="active"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
+            <li><a href="ClientSettings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        </ul>
+        <a href="Login.html" id="logoutBtn" class="btn" style="text-align: center;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <h2>Files & Production Assets</h2>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color); display: flex; justify-content: center; align-items: center; font-weight: bold; font-family: var(--font-body); font-size: 1.2rem;">C</div>
+                <span id="userNameDisplay">Welcome, Client</span>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h4>Storage Quota</h4>
+                <div class="value">18.4 / 50 GB</div>
+            </div>
+            <div class="stat-card">
+                <h4>Production Files</h4>
+                <div class="value">52 Assets</div>
+            </div>
+            <div class="stat-card">
+                <h4>Lossless Masters</h4>
+                <div class="value">24 WAVs</div>
+            </div>
+        </div>
+
+        <!-- File Explorer List -->
+        <div class="file-list-wrap">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3>Production Deliverables & Masters</h3>
+                <button class="btn" style="padding: 6px 16px; font-size: 0.85rem;"><i class="fa-solid fa-download"></i> Download All (ZIP)</button>
+            </div>
+
+            <div class="file-item">
+                <div class="file-icon"><i class="fa-solid fa-file-audio"></i></div>
+                <div>
+                    <strong>NeonNights_Track01_Intro_Master_24bit.wav</strong>
+                    <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Lossless 48kHz / 24-bit Broadcast WAV</div>
+                </div>
+                <span style="color: rgba(245,241,232,0.6);">84.2 MB</span>
+                <span style="color: rgba(245,241,232,0.4); font-size: 0.8rem;">Sep 09, 2026</span>
+                <div style="text-align: right;"><button class="btn btn-solid" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+
+            <div class="file-item">
+                <div class="file-icon"><i class="fa-solid fa-file-audio"></i></div>
+                <div>
+                    <strong>NeonNights_Track02_Midnight_V1Mix.wav</strong>
+                    <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Unmastered Mixdown for Client Review</div>
+                </div>
+                <span style="color: rgba(245,241,232,0.6);">92.5 MB</span>
+                <span style="color: rgba(245,241,232,0.4); font-size: 0.8rem;">Sep 08, 2026</span>
+                <div style="text-align: right;"><button class="btn btn-solid" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+
+            <div class="file-item">
+                <div class="file-icon"><i class="fa-solid fa-file-zipper"></i></div>
+                <div>
+                    <strong>NeonNights_Track01_FullStemPackage.zip</strong>
+                    <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Vocals, Drums, Synths, Bass, FX (Separate Stems)</div>
+                </div>
+                <span style="color: rgba(245,241,232,0.6);">637 MB</span>
+                <span style="color: rgba(245,241,232,0.4); font-size: 0.8rem;">Sep 06, 2026</span>
+                <div style="text-align: right;"><button class="btn btn-solid" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+
+            <div class="file-item">
+                <div class="file-icon"><i class="fa-solid fa-file-lines"></i></div>
+                <div>
+                    <strong>TheHorizon_Score_CueSheet_MasterRegistry.pdf</strong>
+                    <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Official BMI Cue Sheet with scene timestamps</div>
+                </div>
+                <span style="color: rgba(245,241,232,0.6);">2.4 MB</span>
+                <span style="color: rgba(245,241,232,0.4); font-size: 0.8rem;">Aug 28, 2026</span>
+                <div style="text-align: right;"><button class="btn" style="padding: 4px 12px; font-size: 0.75rem;"><i class="fa-solid fa-file-pdf"></i></button></div>
+            </div>
+        </div>
+
+        <!-- 4 Unique Sections for Files & Assets -->
+        <div class="dashboard-grid">
+            <!-- 1. Client File Upload Portal Form -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Upload Assets to Studio</h3>
+                    <i class="fa-solid fa-cloud-arrow-up" style="color: var(--accent-color);"></i>
+                </div>
+                <form id="uploadForm" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label for="assetCategory">Asset Category <span style="color: #ff6b6b;">*</span></label>
+                        <select id="assetCategory" class="form-control" required>
+                            <option value="">-- Select Category --</option>
+                            <option value="reference">Reference Audio Track (MP3 / WAV)</option>
+                            <option value="video">Video Locked Cut for Scoring (MP4 / MOV)</option>
+                            <option value="notes">Director Notes / Feedback PDF</option>
+                            <option value="stems">External Recording Stems</option>
+                        </select>
+                    </div>
+                    <div class="dropzone-box">
+                        <i class="fa-solid fa-folder-arrow-up" style="font-size: 2.2rem; color: var(--accent-color); margin-bottom: 8px;"></i>
+                        <div style="font-size: 0.9rem; font-weight: 600;">Choose a file or drag & drop here</div>
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5); margin-top: 4px;">Up to 2GB per file &bull; WAV, AIFF, MP3, MP4, PDF</div>
+                        <input type="file" id="filePicker" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadNotes">Description for Production Team <span style="color: #ff6b6b;">*</span></label>
+                        <input type="text" id="uploadNotes" class="form-control" placeholder="e.g., Locked picture cut with updated dialogue mix" required>
+                    </div>
+                    <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 5px;"><i class="fa-solid fa-upload"></i> Upload to Producer Channel</button>
+                </form>
+            </div>
+
+            <!-- 2. Connected Cloud Storage Sync & Mirrors -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Cloud Storage Sync</h3>
+                    <span style="font-size: 0.8rem; color: #64c864;"><i class="fa-solid fa-rotate"></i> Auto-Synced</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="sync-card">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fa-brands fa-google-drive" style="font-size: 1.8rem; color: #34a853;"></i>
+                            <div>
+                                <strong>Google Drive Studio Mirror</strong>
+                                <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Synced 14 mins ago &bull; /Stackly/NeonNights</div>
+                            </div>
+                        </div>
+                        <button class="btn" style="padding: 4px 10px; font-size: 0.75rem;">Open</button>
+                    </div>
+                    <div class="sync-card">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fa-brands fa-dropbox" style="font-size: 1.8rem; color: #0061ff;"></i>
+                            <div>
+                                <strong>Dropbox Archive Vault</strong>
+                                <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Daily snapshot active &bull; Lossless Masters</div>
+                            </div>
+                        </div>
+                        <button class="btn" style="padding: 4px 10px; font-size: 0.75rem;">Open</button>
+                    </div>
+                    <div class="sync-card">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fa-solid fa-server" style="font-size: 1.6rem; color: var(--accent-color);"></i>
+                            <div>
+                                <strong>High-Speed Studio NAS (10GbE)</strong>
+                                <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Direct studio fiber link &bull; 0 latency</div>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.75rem; color: #64c864; font-weight: 600;">Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Audio Delivery Specifications Guide -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Delivery Specs Cheat-Sheet</h3>
+                    <i class="fa-solid fa-sliders" style="color: var(--accent-color);"></i>
+                </div>
+                <div style="font-size: 0.85rem; line-height: 1.7; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Streaming Masters</span>
+                        <strong>48 kHz / 24-bit WAV (-14 LUFS, -1.0 dBTP)</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Theatrical Film Stems</span>
+                        <strong>48 kHz / 24-bit 5.1 & 7.1.4 Dolby Atmos</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(245,241,232,0.05); padding-bottom: 6px;">
+                        <span style="color: rgba(245,241,232,0.5);">Video Sync Timecode</span>
+                        <strong>23.976 fps / 24.000 fps SMPTE Burn-In</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+                        <span style="color: rgba(245,241,232,0.5);">Vinyl Pre-Master</span>
+                        <strong>High Dynamic Range 96 kHz / 24-bit Unclipped</strong>
+                    </div>
+                    <button class="btn" style="width: 100%; margin-top: 5px;"><i class="fa-solid fa-file-pdf"></i> Download Complete Studio Specsheet</button>
+                </div>
+            </div>
+
+            <!-- 4. Download History & Access Audit Log -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Recent Asset Activity Audit</h3>
+                    <i class="fa-solid fa-shield" style="color: var(--accent-color);"></i>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                    <div style="padding: 10px; background: rgba(10,10,10,0.5); border-radius: 6px; border-left: 3px solid var(--accent-color);">
+                        <strong>Track01_Intro_Master.wav</strong> downloaded
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5); margin-top: 2px;">By Director John &bull; Today, 09:24 AM</div>
+                    </div>
+                    <div style="padding: 10px; background: rgba(10,10,10,0.5); border-radius: 6px; border-left: 3px solid #64c864;">
+                        <strong>TheHorizon_Score_CueSheet.pdf</strong> accessed
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5); margin-top: 2px;">By Music Supervisor &bull; Yesterday, 04:12 PM</div>
+                    </div>
+                    <div style="padding: 10px; background: rgba(10,10,10,0.5); border-radius: 6px; border-left: 3px solid var(--accent-color);">
+                        <strong>FullStemPackage.zip</strong> downloaded
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5); margin-top: 2px;">By Mastering Engineer &bull; Sep 07, 11:30 AM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cursor = document.querySelector(".custom-cursor");
+            if (cursor) {
+                document.addEventListener("mousemove", (e) => {
+                    cursor.style.left = e.clientX + "px";
+                    cursor.style.top = e.clientY + "px";
+                });
+            }
+
+            // GSAP Entrance
+            gsap.from(".stat-card", {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                stagger: 0.1
+            });
+
+            gsap.from(".file-list-wrap", {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                delay: 0.2
+            });
+
+            gsap.from(".gsap-fade-up", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                delay: 0.3
+            });
+
+            const currentUser = localStorage.getItem('currentUser') || 'Client';
+            document.getElementById('userNameDisplay').textContent = 'Welcome, ' + currentUser;
+            document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                });
+            }
+
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const clientSidebar = document.getElementById('clientSidebar');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    sidebarMenu.classList.toggle('active-menu');
+                    clientSidebar.classList.toggle('active-menu');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (sidebarMenu.classList.contains('active-menu')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Redirect non-sidebar buttons and links to 404
+            document.querySelectorAll('a, button').forEach(el => {
+                if (el.closest('.sidebar')) return;
+                if (el.closest('form')) return; // Handled by form submit
+                if (el.id === 'mobileMenuToggle') return; // Hamburger menu
+                
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '404.html';
+                });
+            });
+
+            // Form validation and redirection
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    let valid = true;
+                    form.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.hasAttribute('required') && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = '#ff6b6b';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    });
+                    if (valid) {
+                        window.location.href = '404.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

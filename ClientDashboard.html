@@ -35,7 +35,7 @@
         .sidebar-menu a {
             display: flex; align-items: center; gap: 15px;
             padding: 12px 20px; border-radius: 8px;
-            color: rgba(245, 241, 232, 0.7); transition: all 0.3s ease;
+            color: rgba(245, 241, 232, 0.7); transition: border-color 0.3s, color 0.3s;
         }
         .sidebar-menu a:hover, .sidebar-menu a.active {
             background-color: rgba(201, 163, 93, 0.1); color: var(--accent-color);
@@ -64,7 +64,7 @@
         .stat-card h4 { color: rgba(245, 241, 232, 0.5); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px; }
         .stat-card .value { font-size: 1.5rem; color: var(--accent-color); font-family: var(--font-body); }
 
-        /* Dynamic Projects Section */
+        /* Dynamic Deliverables Section */
         .project-section {
             background: rgba(245, 241, 232, 0.02);
             border: 1px solid rgba(245, 241, 232, 0.05);
@@ -89,11 +89,52 @@
         .project-status { color: var(--accent-color); font-size: 0.9rem; }
         .project-action { text-align: right; }
 
+        /* Grid Sections */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .section-box {
+            background: rgba(245, 241, 232, 0.02);
+            border: 1px solid rgba(245, 241, 232, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(245,241,232,0.1); padding-bottom: 10px; }
+
+        /* Financial Progress Bar */
+        .progress-container { width: 100%; background: rgba(245,241,232,0.05); height: 8px; border-radius: 4px; overflow: hidden; margin: 15px 0; }
+        .progress-bar { height: 100%; background: var(--accent-color); border-radius: 4px; }
+
+        /* Milestones Timeline */
+        .timeline-item { padding-left: 20px; border-left: 2px solid var(--accent-color); position: relative; padding-bottom: 15px; }
+        .timeline-item::before { content: ''; width: 10px; height: 10px; background: var(--accent-color); border-radius: 50%; position: absolute; left: -6px; top: 5px; }
+        .timeline-item.completed::before { background: #64c864; }
+
+        /* Checklist Items */
+        .task-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(10,10,10,0.5); border: 1px solid rgba(245,241,232,0.05); border-radius: 8px; }
+        .task-item input[type="checkbox"] { accent-color: var(--accent-color); transform: scale(1.2); }
+        .task-item.completed span { text-decoration: line-through; color: rgba(245,241,232,0.4); }
+
+        /* Activity Log */
+        .log-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(245,241,232,0.05); font-size: 0.9rem; color: rgba(245,241,232,0.8); }
+        .log-item:last-child { border-bottom: none; }
+
+        .hamburger { display: none; }
+
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding: 20px; flex-direction: row; align-items: center; justify-content: space-between; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(245, 241, 232, 0.1); padding: 20px; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; z-index: 100; position: relative; }
             .sidebar-brand { margin-bottom: 0; }
-            .sidebar-menu { display: none; }
+            .hamburger { display: block; font-size: 1.5rem; color: var(--accent-color); cursor: pointer; }
+            .sidebar-menu { display: none; width: 100%; flex-direction: column; padding-top: 20px; }
+            .sidebar-menu.active-menu { display: flex; }
+            .sidebar #logoutBtn { display: none; }
+            .sidebar.active-menu #logoutBtn { display: flex; width: 100%; margin-top: 15px; }
             .stats-cards { grid-template-columns: 1fr; }
             .project-item { grid-template-columns: 1fr; gap: 10px; }
             .project-action { text-align: left; }
@@ -105,17 +146,22 @@
     <div class="noise-overlay"></div>
     <div class="custom-cursor"></div>
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="clientSidebar">
         <div class="sidebar-brand">
             <a href="ClientDashboard.html">
                 <img src="Assets/Brand-logo.webp" alt="Stackly Logo" style="filter: brightness(0) saturate(100%) invert(75%) sepia(34%) saturate(452%) hue-rotate(1deg) brightness(91%) contrast(85%);">
             </a>
         </div>
-        <ul class="sidebar-menu">
-            <li><a href="#" class="active"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
-            <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
-            <li><a href="#"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
-            <li><a href="#"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
+        <div class="hamburger" id="mobileMenuToggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li><a href="ClientDashboard.html" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="ClientProjects.html"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
+            <li><a href="ClientInvoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
+            <li><a href="ClientCommunication.html"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
+            <li><a href="ClientFiles.html"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
+            <li><a href="ClientSettings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
         </ul>
         <a href="Login.html" id="logoutBtn" class="btn" style="text-align: center;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
     </aside>
@@ -132,25 +178,137 @@
         <div class="stats-cards">
             <div class="stat-card">
                 <h4>Active Project</h4>
-                <div class="value" style="font-size: 1.5rem;">Neon Nights (Album)</div>
+                <div class="value">Neon Nights (Album)</div>
             </div>
             <div class="stat-card">
                 <h4>Status</h4>
-                <div class="value" style="font-size: 1.5rem;">In Production</div>
+                <div class="value">In Production</div>
             </div>
             <div class="stat-card">
                 <h4>Next Milestone</h4>
-                <div class="value" style="font-size: 1.5rem;">Oct 15, 2026</div>
+                <div class="value">Oct 15, 2026</div>
             </div>
         </div>
 
-        <div class="project-section">
+        <div class="project-section gsap-fade-up">
             <div class="project-header">
                 <h3>Project Deliverables (Dynamic)</h3>
                 <button class="btn btn-solid" style="padding: 8px 16px; font-size: 0.8rem;" id="refreshDeliverables"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
             </div>
             <div class="project-list" id="deliverablesContainer">
                 <!-- Items injected via JS -->
+            </div>
+        </div>
+
+        <!-- 4 Unique Sections for Client Dashboard -->
+        <div class="dashboard-grid">
+            <!-- 1. Financial Overview & Invoices Due -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Financial & Budget Overview</h3>
+                    <span style="font-size: 0.85rem; color: #64c864;"><i class="fa-solid fa-circle-check"></i> In Good Standing</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 5px;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5);">Total Contract</div>
+                        <div style="font-size: 1.6rem; color: var(--text-color); font-family: var(--font-display);">$15,000</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5);">Paid to Date</div>
+                        <div style="font-size: 1.6rem; color: var(--accent-color); font-family: var(--font-display);">$10,500 (70%)</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 70%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 5px;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5);">Next Milestone Due</div>
+                        <div style="font-size: 1.1rem; color: #ff6b6b; font-weight: 600;">$4,500 (Oct 15)</div>
+                    </div>
+                    <button class="btn btn-solid" style="padding: 8px 18px; font-size: 0.85rem;"><i class="fa-solid fa-credit-card"></i> Pay Now</button>
+                </div>
+            </div>
+
+            <!-- 2. Production Milestones & Timeline -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Milestones Schedule</h3>
+                    <span style="font-size: 0.85rem; color: var(--accent-color);">Phase 3 of 4</span>
+                </div>
+                <div>
+                    <div class="timeline-item completed">
+                        <strong style="color: #64c864;">Completed</strong> - Pre-Production & Arrangement
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 3px;">Approved Aug 20, 2026</div>
+                    </div>
+                    <div class="timeline-item completed">
+                        <strong style="color: #64c864;">Completed</strong> - Lead Vocals & Live Strings Tracking
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 3px;">Approved Sep 02, 2026</div>
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: var(--accent-color);">In Progress</strong> - Mixdown & Revisions (Track 1-3)
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 3px;">Estimated Oct 15, 2026</div>
+                    </div>
+                    <div class="timeline-item" style="border-left-color: transparent; padding-bottom: 0;">
+                        <strong style="color: rgba(245,241,232,0.5);">Upcoming</strong> - Final Master & Stems Package
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 3px;">Target Nov 01, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Action Items & Approvals -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Action Items & Approvals</h3>
+                    <span style="font-size: 0.8rem; background: rgba(201,163,93,0.1); color: var(--accent-color); padding: 3px 8px; border-radius: 4px;">2 Pending</span>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox">
+                    <div>
+                        <strong>Review Track 2: Midnight (V1 Mix)</strong>
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Awaiting client approval or mix revision notes</div>
+                    </div>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox">
+                    <div>
+                        <strong>Confirm Sync Rights License Scope</strong>
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.5);">Worldwide streaming & cinematic trailer usage</div>
+                    </div>
+                </div>
+                <div class="task-item completed">
+                    <input type="checkbox" checked>
+                    <div>
+                        <span>Track 1 Intro Rough Mix Approved</span>
+                        <div style="font-size: 0.75rem; color: rgba(245,241,232,0.3);">Signed off by Director on Sep 08</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Real-time Activity Feed -->
+            <div class="section-box gsap-fade-up">
+                <div class="section-header">
+                    <h3>Live Studio Activity Feed</h3>
+                    <i class="fa-solid fa-satellite-dish" style="color: var(--accent-color);"></i>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <div class="log-item">
+                        <span><i class="fa-solid fa-file-audio" style="color: var(--accent-color); margin-right: 10px; width: 15px;"></i> Stems Package V2 uploaded by Julian Vance</span>
+                        <span style="font-size: 0.75rem;">11:20 AM</span>
+                    </div>
+                    <div class="log-item">
+                        <span><i class="fa-solid fa-comment-dots" style="color: var(--accent-color); margin-right: 10px; width: 15px;"></i> Producer note added to Track 3: Void</span>
+                        <span style="font-size: 0.75rem;">Yesterday</span>
+                    </div>
+                    <div class="log-item">
+                        <span><i class="fa-solid fa-circle-check" style="color: #64c864; margin-right: 10px; width: 15px;"></i> Milestone payment received for Phase 2</span>
+                        <span style="font-size: 0.75rem;">Sep 05</span>
+                    </div>
+                    <div class="log-item">
+                        <span><i class="fa-solid fa-calendar-check" style="color: var(--accent-color); margin-right: 10px; width: 15px;"></i> Listening Session scheduled with Producer</span>
+                        <span style="font-size: 0.75rem;">Sep 01</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -213,6 +371,14 @@
                 stagger: 0.1
             });
 
+            gsap.from(".gsap-fade-up", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                delay: 0.3
+            });
+
             const currentUser = localStorage.getItem('currentUser') || 'Client';
             document.getElementById('userNameDisplay').textContent = 'Welcome, ' + currentUser;
             document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
@@ -223,6 +389,56 @@
                     localStorage.removeItem('currentUser');
                 });
             }
+
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const clientSidebar = document.getElementById('clientSidebar');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    sidebarMenu.classList.toggle('active-menu');
+                    clientSidebar.classList.toggle('active-menu');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (sidebarMenu.classList.contains('active-menu')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Redirect non-sidebar buttons and links to 404
+            document.querySelectorAll('a, button').forEach(el => {
+                if (el.closest('.sidebar')) return;
+                if (el.closest('form')) return; // Handled by form submit
+                if (el.id === 'mobileMenuToggle') return; // Hamburger menu
+                
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '404.html';
+                });
+            });
+
+            // Form validation and redirection
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    let valid = true;
+                    form.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.hasAttribute('required') && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = '#ff6b6b';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    });
+                    if (valid) {
+                        window.location.href = '404.html';
+                    }
+                });
+            });
         });
     </script>
 </body>
