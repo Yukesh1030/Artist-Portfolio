@@ -107,7 +107,9 @@
 
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <img src="Assets/Brand-logo.webp" alt="Stackly Logo">
+            <a href="AdminDashboard.html">
+                <img src="Assets/Brand-logo.webp" alt="Stackly Logo" style="filter: brightness(0) saturate(100%) invert(75%) sepia(34%) saturate(452%) hue-rotate(1deg) brightness(91%) contrast(85%);">
+            </a>
         </div>
         <ul class="sidebar-menu">
             <li><a href="#" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
@@ -116,15 +118,15 @@
             <li><a href="#"><i class="fa-solid fa-envelope"></i> Messages</a></li>
             <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
         </ul>
-        <a href="index.html" class="btn" style="text-align: center;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+        <a href="Login.html" id="logoutBtn" class="btn" style="text-align: center;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
     </aside>
 
     <main class="main-content">
         <div class="topbar">
             <h2>Admin Overview</h2>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <img src="Assets/Brand-logo.webp" alt="Admin" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-color); object-fit: cover; background: white; padding: 5px;">
-                <span>Stackly Admin</span>
+                <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color); display: flex; justify-content: center; align-items: center; font-weight: bold; font-family: var(--font-body); font-size: 1.2rem;">A</div>
+                <span id="userNameDisplay">Stackly Admin</span>
             </div>
         </div>
 
@@ -213,6 +215,17 @@
                 duration: 0.6,
                 stagger: 0.1
             });
+
+            const currentUser = localStorage.getItem('currentUser') || 'Stackly Admin';
+            document.getElementById('userNameDisplay').textContent = currentUser;
+            document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                });
+            }
         });
     </script>
 </body>

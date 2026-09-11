@@ -77,6 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if(isValid) {
+                const username = email.value.split('@')[0];
+                const displayName = username.charAt(0).toUpperCase() + username.slice(1);
+                localStorage.setItem('currentUser', displayName);
+
                 // Redirect based on Role
                 if (role === 'Admin') {
                     window.location.href = 'AdminDashboard.html';
