@@ -72,8 +72,9 @@
             background: rgba(245, 241, 232, 0.02);
             border: 1px solid rgba(245, 241, 232, 0.05);
             border-radius: 12px;
-            padding: 30px;
-            height: 100%;
+            padding: 20px;
+            height: 50%;
+           
         }
         .section-header {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
@@ -99,7 +100,7 @@
         .reply-input { flex-grow: 1; background: rgba(10,10,10,0.8); border: 1px solid rgba(245,241,232,0.1); padding: 12px 15px; color: var(--text-color); border-radius: 5px; outline: none; resize: none; font-family: var(--font-body); }
 
         /* Action Buttons */
-        .action-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .action-buttons { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
 
         .hamburger { display: none; }
         @media (max-width: 992px) {
@@ -226,13 +227,16 @@
         </div>
 
         <!-- Section 5: Quick Actions -->
-        <div class="section-box gsap-fade-up">
+        <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
             <div class="section-header">
                 <h3>Actions</h3>
             </div>
             <div class="action-buttons">
                 <button class="btn btn-solid"><i class="fa-solid fa-pen-to-square"></i> Compose New</button>
                 <button class="btn"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
+                <button class="btn"><i class="fa-solid fa-box-archive"></i> Archive Selected</button>
+                <button class="btn"><i class="fa-solid fa-star"></i> Mark as Important</button>
+                <button class="btn"><i class="fa-solid fa-file-export"></i> Export Logs</button>
                 <button class="btn" style="color: #ff6b6b; border-color: rgba(255,107,107,0.2);"><i class="fa-solid fa-trash"></i> Delete Selected</button>
             </div>
         </div>
@@ -289,6 +293,14 @@
                 duration: 0.5,
                 stagger: 0.1,
                 delay: 0.5
+            });
+
+            gsap.from(".action-buttons .btn", {
+                opacity: 0,
+                y: 10,
+                duration: 0.4,
+                stagger: 0.1,
+                delay: 0.6
             });
 
             const currentUser = localStorage.getItem('currentUser') || 'Stackly Admin';
