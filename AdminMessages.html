@@ -208,17 +208,18 @@
                             <span>Sep 11, 2026, 10:30 AM</span>
                         </div>
                     </div>
-                    <div class="message-body">
-                        Hi Stackly,<br><br>
-                        I absolutely loved your work on 'Neon Nights' and would love to discuss a potential collaboration for my upcoming feature film, 'The Horizon'.<br><br>
-                        It's a sci-fi drama, and we are looking for an ambient, synthesizer-heavy score to capture the isolation of deep space.<br><br>
-                        Could we schedule a call next week to discuss availability and rates?<br><br>
-                        Best regards,<br>
-                        John
+                    <div class="chat-history" id="chatHistory">
+                        <div class="chat-bubble chat-left">
+                            Hi Stackly,<br><br>
+                            I absolutely loved your work on 'Neon Nights' and would love to discuss a potential collaboration for my upcoming feature film, 'The Horizon'.<br><br>
+                            It's a sci-fi drama, and we are looking for an ambient, synthesizer-heavy score to capture the isolation of deep space.<br><br>
+                            Could we schedule a call next week to discuss availability and rates?
+                            <div class="chat-time">Sep 11, 2026, 10:30 AM</div>
+                        </div>
                     </div>
                     <div class="reply-box">
-                        <textarea class="reply-input" rows="3" placeholder="Type your reply here..."></textarea>
-                        <button class="btn btn-solid" style="padding: 0 20px;"><i class="fa-solid fa-paper-plane"></i></button>
+                        <textarea class="reply-input" id="chatInput" rows="2" placeholder="Type your reply here... (Press Enter to send)"></textarea>
+                        <button class="btn btn-solid" id="chatSendBtn" style="padding: 0 20px;"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -233,6 +234,24 @@
                 <button class="btn btn-solid"><i class="fa-solid fa-pen-to-square"></i> Compose New</button>
                 <button class="btn"><i class="fa-solid fa-check-double"></i> Mark all as read</button>
                 <button class="btn" style="color: #ff6b6b; border-color: rgba(255,107,107,0.2);"><i class="fa-solid fa-trash"></i> Delete Selected</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Activity Logs to fill space -->
+        <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+            <div class="section-header">
+                <h3>Recent Communication Logs</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="padding: 12px; background: rgba(10,10,10,0.5); border-radius: 8px; font-size: 0.9rem; color: rgba(245,241,232,0.8); border: 1px solid rgba(245,241,232,0.05);">
+                    <strong style="color: var(--accent-color);">System:</strong> Automated project update sent to <em>Vellichor Mgmt</em> <span style="float: right; font-size: 0.8rem; color: rgba(245,241,232,0.5);">Today, 09:15 AM</span>
+                </div>
+                <div style="padding: 12px; background: rgba(10,10,10,0.5); border-radius: 8px; font-size: 0.9rem; color: rgba(245,241,232,0.8); border: 1px solid rgba(245,241,232,0.05);">
+                    <strong style="color: var(--accent-color);">System:</strong> Invoice #1024 delivered to <em>Aura Films</em> <span style="float: right; font-size: 0.8rem; color: rgba(245,241,232,0.5);">Yesterday, 16:45 PM</span>
+                </div>
+                <div style="padding: 12px; background: rgba(10,10,10,0.5); border-radius: 8px; font-size: 0.9rem; color: rgba(245,241,232,0.8); border: 1px solid rgba(245,241,232,0.05);">
+                    <strong style="color: var(--accent-color);">System:</strong> New Inquiry received from <em>Emma Watson</em> <span style="float: right; font-size: 0.8rem; color: rgba(245,241,232,0.5);">Sep 05, 11:20 AM</span>
+                </div>
             </div>
         </div>
     </main>
@@ -298,6 +317,58 @@
                     } else {
                         icon.classList.remove('fa-xmark');
                         icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Chat Functionality
+            const chatHistory = document.getElementById('chatHistory');
+            const chatInput = document.getElementById('chatInput');
+            const chatSendBtn = document.getElementById('chatSendBtn');
+
+            function appendMessage(text, side) {
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble chat-${side}`;
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                bubble.innerHTML = `${text}<div class="chat-time">Today, ${timeStr}</div>`;
+                chatHistory.appendChild(bubble);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+                // Animate entrance
+                gsap.from(bubble, {
+                    opacity: 0,
+                    y: 10,
+                    duration: 0.3
+                });
+            }
+
+            function handleSend() {
+                const text = chatInput.value.trim();
+                if (text) {
+                    appendMessage(text, 'right');
+                    chatInput.value = '';
+                    
+                    // Simulate bot reply
+                    setTimeout(() => {
+                        const replies = [
+                            "That sounds great! What time works for you?",
+                            "Perfect. Could you also send over some rough estimates?",
+                            "Awesome, looking forward to it.",
+                            "I'll have my assistant set up the calendar invite."
+                        ];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        appendMessage(randomReply, 'left');
+                    }, 1500);
+                }
+            }
+
+            if(chatSendBtn && chatInput) {
+                chatSendBtn.addEventListener('click', handleSend);
+                chatInput.addEventListener('keypress', (e) => {
+                    if(e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
                     }
                 });
             }
