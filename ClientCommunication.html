@@ -133,6 +133,10 @@
             background: rgba(10,10,10,0.5); border: 1px solid rgba(245,241,232,0.05); border-radius: 8px;
         }
 
+        /* Form Grid */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-row.form-row-2 { grid-template-columns: 2fr 1fr; }
+
         .hamburger { display: none; }
 
         @media (max-width: 992px) {
@@ -150,6 +154,10 @@
             .sidebar.active-menu #logoutBtn { display: flex; width: 100%; margin-top: 15px; }
             .stats-cards { grid-template-columns: 1fr; }
             .chat-bubble { max-width: 90%; }
+            .form-row { grid-template-columns: 1fr !important; }
+            .brief-link-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .chat-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .chat-container { height: 500px; padding: 15px; }
         }
     </style>
 </head>
@@ -170,7 +178,7 @@
         <ul class="sidebar-menu" id="sidebarMenu">
             <li><a href="ClientDashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
             <li><a href="ClientProjects.html"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
-            <li><a href="ClientInvoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
+
             <li><a href="ClientCommunication.html" class="active"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
             <li><a href="ClientFiles.html"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
             <li><a href="ClientSettings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
@@ -246,7 +254,7 @@
                             <option value="audiomovers">Audiomovers Listento High-Res Stream</option>
                         </select>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="callDate">Preferred Date <span style="color: #ff6b6b;">*</span></label>
                             <input type="date" id="callDate" class="form-control" required>
@@ -271,7 +279,7 @@
                     <i class="fa-solid fa-clock" style="color: var(--accent-color);"></i>
                 </div>
                 <form id="feedbackForm" style="display: flex; flex-direction: column; gap: 12px;">
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                    <div class="form-row form-row-2">
                         <div class="form-group">
                             <label for="feedbackTrack">Track Selection <span style="color: #ff6b6b;">*</span></label>
                             <select id="feedbackTrack" class="form-control" required>

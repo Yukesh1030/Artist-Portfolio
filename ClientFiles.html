@@ -134,7 +134,23 @@
             .sidebar #logoutBtn { display: none; }
             .sidebar.active-menu #logoutBtn { display: flex; width: 100%; margin-top: 15px; }
             .stats-cards { grid-template-columns: 1fr; }
-            .file-item { grid-template-columns: auto 1fr; gap: 8px; }
+            
+            .file-item { 
+                grid-template-columns: auto 1fr; 
+                grid-template-areas: 
+                    "icon name"
+                    "icon size"
+                    "icon date"
+                    "icon btn";
+                gap: 5px 15px;
+            }
+            .file-icon { grid-area: icon; align-self: start; margin-top: 5px; }
+            .file-item > div:nth-child(2) { grid-area: name; }
+            .file-item > span:nth-child(3) { grid-area: size; font-size: 0.8rem; }
+            .file-item > span:nth-child(4) { grid-area: date; font-size: 0.8rem; }
+            .file-item > div:last-child { grid-area: btn; text-align: left; margin-top: 10px; }
+            
+            .sync-card { flex-direction: column; align-items: flex-start; gap: 15px; }
         }
     </style>
 </head>
@@ -155,7 +171,7 @@
         <ul class="sidebar-menu" id="sidebarMenu">
             <li><a href="ClientDashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
             <li><a href="ClientProjects.html"><i class="fa-solid fa-layer-group"></i> My Projects</a></li>
-            <li><a href="ClientInvoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a></li>
+
             <li><a href="ClientCommunication.html"><i class="fa-solid fa-comment-dots"></i> Communication</a></li>
             <li><a href="ClientFiles.html" class="active"><i class="fa-solid fa-folder-open"></i> Files & Assets</a></li>
             <li><a href="ClientSettings.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
