@@ -484,6 +484,10 @@ select.form-control option {
   .section-padding {
     padding: 80px 5%;
   }
+  
+  .custom-cursor {
+    display: none !important;
+  }
 }
 
 @media (max-width: 414px) {
