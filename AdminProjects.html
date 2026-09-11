@@ -90,13 +90,32 @@
         .status-badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; background: rgba(201, 163, 93, 0.1); color: var(--accent-color); }
         
         /* Deliverables & Actions */
-        .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
         .action-buttons { display: flex; flex-direction: column; gap: 15px; }
+
+        /* New Sections */
+        .pipeline-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .pipeline-column { background: rgba(10,10,10,0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(245,241,232,0.05); }
+        .pipeline-header { font-size: 0.9rem; color: rgba(245,241,232,0.6); text-transform: uppercase; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(245,241,232,0.1); }
+        .pipeline-card { background: rgba(201,163,93,0.05); border: 1px solid rgba(201,163,93,0.2); padding: 10px; border-radius: 5px; font-size: 0.85rem; margin-bottom: 10px; color: var(--text-color); }
+        
+        .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .resource-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: rgba(10,10,10,0.5); border: 1px solid rgba(245,241,232,0.05); border-radius: 8px; }
+        
+        .calendar-list { display: flex; flex-direction: column; gap: 10px; }
+        .calendar-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(10,10,10,0.5); border-radius: 8px; }
+        .calendar-date { background: rgba(201,163,93,0.1); color: var(--accent-color); padding: 5px 10px; border-radius: 5px; font-weight: 600; text-align: center; min-width: 60px; }
+        
+        .archive-table { width: 100%; border-collapse: collapse; }
+        .archive-table th, .archive-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(245,241,232,0.05); font-size: 0.9rem; }
+        .archive-table th { color: rgba(245,241,232,0.5); font-weight: normal; }
 
         .hamburger { display: none; }
         @media (max-width: 992px) {
             .stats-cards { grid-template-columns: repeat(2, 1fr); }
             .bottom-grid { grid-template-columns: 1fr; }
+            .pipeline-grid { grid-template-columns: repeat(2, 1fr); }
+            .resource-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
@@ -111,6 +130,9 @@
             .stats-cards { grid-template-columns: 1fr; }
             .project-item { grid-template-columns: 1fr; text-align: center; gap: 10px; }
             .status-badge { margin: 0 auto; }
+            .pipeline-grid { grid-template-columns: 1fr; }
+            .archive-table { display: block; overflow-x: auto; }
+            .calendar-item { flex-direction: column; gap: 10px; align-items: flex-start; }
         }
     </style>
 </head>
@@ -271,6 +293,99 @@
                     <button class="btn" style="width: 100%;"><i class="fa-solid fa-file-export"></i> Export Report</button>
                     <button class="btn" style="width: 100%;"><i class="fa-solid fa-box-archive"></i> Archive Completed</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Project Pipeline -->
+        <div class="section-box gsap-fade-up">
+            <div class="section-header">
+                <h3>Project Pipeline</h3>
+            </div>
+            <div class="pipeline-grid">
+                <div class="pipeline-column">
+                    <div class="pipeline-header">Pre-Production (2)</div>
+                    <div class="pipeline-card">Echoes of Time</div>
+                    <div class="pipeline-card">Urban Symphony</div>
+                </div>
+                <div class="pipeline-column">
+                    <div class="pipeline-header">Production (1)</div>
+                    <div class="pipeline-card">The Horizon Score</div>
+                </div>
+                <div class="pipeline-column">
+                    <div class="pipeline-header">Mixing (1)</div>
+                    <div class="pipeline-card">Neon Nights Album</div>
+                </div>
+                <div class="pipeline-column">
+                    <div class="pipeline-header">Mastering (0)</div>
+                    <div style="font-size: 0.8rem; color: rgba(245,241,232,0.4); text-align: center; margin-top: 10px;">Empty</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Resource Allocation -->
+        <div class="section-box gsap-fade-up">
+            <div class="section-header">
+                <h3>Resource Allocation</h3>
+            </div>
+            <div class="resource-grid">
+                <div class="resource-item">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #4a90e2; display: flex; justify-content: center; align-items: center; font-weight: bold;">JD</div>
+                    <div>
+                        <div style="font-weight: 600;">Jane Doe</div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.6);">Lead Composer - 80% Capacity</div>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #e24a8d; display: flex; justify-content: center; align-items: center; font-weight: bold;">MK</div>
+                    <div>
+                        <div style="font-weight: 600;">Mike Kraft</div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.6);">Sound Engineer - 100% Booked</div>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #4ae294; display: flex; justify-content: center; align-items: center; font-weight: bold;">ST</div>
+                    <div>
+                        <div style="font-weight: 600;">Studio A</div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.6);">Available next week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-grid" style="margin-bottom: 0;">
+            <!-- Section 8: Deadlines Calendar -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Deadlines</h3>
+                </div>
+                <div class="calendar-list">
+                    <div class="calendar-item">
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <div class="calendar-date">Sep 14</div>
+                            <div>Final Mix 'Neon Nights'</div>
+                        </div>
+                        <span class="status-badge" style="background: rgba(255, 107, 107, 0.1); color: #ff6b6b;">Due Soon</span>
+                    </div>
+                    <div class="calendar-item">
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <div class="calendar-date">Sep 18</div>
+                            <div>Scene 42 Revisions</div>
+                        </div>
+                        <span class="status-badge">Pending</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 9: Archived Projects -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Archived</h3>
+                </div>
+                <table class="archive-table">
+                    <tr><th>Project</th><th>Client</th><th>Date</th></tr>
+                    <tr><td>Desert Mirage</td><td>Sony Music</td><td>Aug 2026</td></tr>
+                    <tr><td>Blue Ocean</td><td>Indie Films</td><td>Jul 2026</td></tr>
+                </table>
             </div>
         </div>
     </main>

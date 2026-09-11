@@ -98,14 +98,31 @@
         .client-info i { color: var(--accent-color); margin-right: 8px; width: 15px; text-align: center; }
         .client-info { font-size: 0.9rem; color: rgba(245, 241, 232, 0.8); }
 
-        /* Bottom Grid */
-        .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        /* Deliverables & Actions */
+        .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
         .action-buttons { display: flex; flex-direction: column; gap: 15px; }
+
+        /* New Sections */
+        .top-client-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid rgba(245,241,232,0.05); }
+        .top-client-item:last-child { border-bottom: none; }
+        .client-revenue { font-family: var(--font-display); color: var(--accent-color); font-size: 1.2rem; }
+
+        .prospect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .prospect-card { background: rgba(10,10,10,0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(245,241,232,0.05); border-left: 3px solid #f39c12; }
+
+        .geo-list { display: flex; flex-direction: column; gap: 15px; }
+        .geo-item { display: flex; align-items: center; gap: 15px; }
+        .geo-bar-bg { flex-grow: 1; height: 8px; background: rgba(245,241,232,0.1); border-radius: 4px; overflow: hidden; }
+        .geo-bar-fill { height: 100%; background: var(--accent-color); }
+
+        .testimonial-card { font-style: italic; color: rgba(245,241,232,0.8); background: rgba(10,10,10,0.5); padding: 20px; border-radius: 8px; border: 1px solid rgba(245,241,232,0.05); margin-bottom: 15px; position: relative; }
+        .testimonial-card::before { content: '"'; font-size: 3rem; color: rgba(201,163,93,0.2); position: absolute; top: -10px; left: 10px; font-family: var(--font-display); }
 
         .hamburger { display: none; }
         @media (max-width: 992px) {
             .stats-cards { grid-template-columns: repeat(2, 1fr); }
             .bottom-grid { grid-template-columns: 1fr; }
+            .prospect-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
@@ -293,6 +310,98 @@
                     <button class="btn btn-solid" style="width: 100%;"><i class="fa-solid fa-user-plus"></i> Add Client</button>
                     <button class="btn" style="width: 100%;"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
                     <button class="btn" style="width: 100%;"><i class="fa-solid fa-envelope-open-text"></i> Send Mass Email</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-grid" style="margin-bottom: 0;">
+            <!-- Section 6: Top Clients by Revenue -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Top Clients</h3>
+                </div>
+                <div>
+                    <div class="top-client-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="client-avatar" style="width: 40px; height: 40px; font-size: 1rem;">V</div>
+                            <div style="font-weight: 600;">Vellichor Mgmt</div>
+                        </div>
+                        <div class="client-revenue">$24k</div>
+                    </div>
+                    <div class="top-client-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="client-avatar" style="width: 40px; height: 40px; font-size: 1rem;">S</div>
+                            <div style="font-weight: 600;">Sony Music Ent.</div>
+                        </div>
+                        <div class="client-revenue">$18k</div>
+                    </div>
+                    <div class="top-client-item">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="client-avatar" style="width: 40px; height: 40px; font-size: 1rem;">D</div>
+                            <div style="font-weight: 600;">Director John</div>
+                        </div>
+                        <div class="client-revenue">$12k</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Prospect Pipeline -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Prospect Pipeline</h3>
+                </div>
+                <div class="prospect-grid">
+                    <div class="prospect-card">
+                        <div style="font-weight: 600;">Lucas Films</div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 5px;">In Negotiations</div>
+                    </div>
+                    <div class="prospect-card" style="border-left-color: #3498db;">
+                        <div style="font-weight: 600;">Universal Studios</div>
+                        <div style="font-size: 0.8rem; color: rgba(245,241,232,0.5); margin-top: 5px;">Initial Contact</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-grid" style="margin-bottom: 0;">
+            <!-- Section 8: Client Geographies -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Client Geographies</h3>
+                </div>
+                <div class="geo-list">
+                    <div class="geo-item">
+                        <div style="width: 100px;">Los Angeles</div>
+                        <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 60%;"></div></div>
+                        <div style="width: 30px; text-align: right;">60%</div>
+                    </div>
+                    <div class="geo-item">
+                        <div style="width: 100px;">London</div>
+                        <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 25%;"></div></div>
+                        <div style="width: 30px; text-align: right;">25%</div>
+                    </div>
+                    <div class="geo-item">
+                        <div style="width: 100px;">Bengaluru</div>
+                        <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 15%;"></div></div>
+                        <div style="width: 30px; text-align: right;">15%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 9: Recent Feedback -->
+            <div class="section-box gsap-fade-up" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h3>Recent Feedback</h3>
+                </div>
+                <div>
+                    <div class="testimonial-card">
+                        "The score for The Horizon was absolutely breathtaking. Exactly what we were looking for."
+                        <div style="margin-top: 10px; font-weight: 600; font-size: 0.85rem; font-style: normal; color: var(--accent-color);">- Director John</div>
+                    </div>
+                    <div class="testimonial-card">
+                        "Delivered ahead of schedule with flawless mixing. Will definitely hire again."
+                        <div style="margin-top: 10px; font-weight: 600; font-size: 0.85rem; font-style: normal; color: var(--accent-color);">- Vellichor Mgmt</div>
+                    </div>
                 </div>
             </div>
         </div>
