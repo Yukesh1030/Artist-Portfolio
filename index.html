@@ -313,18 +313,15 @@
                 max-width: 300px;
                 height: 300px;
             }
-            .skills-track { flex-direction: row; padding: 40px 5vw; gap: 40px; }
+            .skills-track { flex-direction: column; padding: 40px 5vw; gap: 40px; }
             .skills-wrapper { 
                 height: auto; 
-                overflow-x: auto; 
-                overflow-y: hidden;
+                overflow: hidden; 
                 display: block; 
-                -webkit-overflow-scrolling: touch;
-                scroll-snap-type: x mandatory;
             }
             .skill-item {
-                scroll-snap-align: center;
-                min-width: 80vw;
+                min-width: 100%;
+                padding: 20px 0;
             }
             .timeline-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .custom-player { flex-direction: column; text-align: center; }
