@@ -488,11 +488,25 @@ select.form-control option {
   .custom-cursor {
     display: none !important;
   }
+  
+  .auth-layout {
+    padding-top: 140px;
+    align-items: flex-start;
+  }
+  
+  .auth-brand {
+    top: 30px;
+  }
+  
+  .back-to-home {
+    top: 80px;
+  }
 }
 
 @media (max-width: 414px) {
   .auth-container {
     padding: 40px 20px;
+    margin-bottom: 40px;
   }
   
   .auth-container h2 {
