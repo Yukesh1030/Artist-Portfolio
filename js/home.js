@@ -32,8 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Horizontal Scroll for Skills Showcase
-    // Only apply on desktop
-    if (window.innerWidth > 768) {
+    // Only apply on desktop using GSAP matchMedia
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 769px)", () => {
         const skillsTrack = document.querySelector('.skills-track');
         if (skillsTrack) {
             const trackWidth = skillsTrack.scrollWidth - window.innerWidth;
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
-    }
+    });
 
     // Number Counter Animation for Achievements
     const counters = document.querySelectorAll('.counter');
